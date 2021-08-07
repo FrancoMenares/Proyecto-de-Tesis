@@ -1,6 +1,7 @@
 
 #include "2-Red.h"
 
+
 //--------------- cant_nodos ---------------
 void Red::set_cant_nodos(int cant_nodos)          { this->cant_nodos = cant_nodos           ;}
 int Red::get_cant_nodos(void)                     { return this->cant_nodos                 ;}
@@ -51,12 +52,22 @@ void Red::set_periodo(int p, int t, float val)    { this->limites_periodo[t][p] 
 float Red::get_ini_periodo(int p)                 { return this->limites_periodo[1][p]      ;}
 float Red::get_fin_periodo(int p)                 { return this->limites_periodo[2][p]      ;}
 
+//------------ Tiempos_atencion ------------
+void Red::set_tam_tiempos_aten(int fils, int cols) {
+  this->tiempo_atencion = new float*[fils]                                                  ;
+  for (int i=0; i<fils; i++){
+    this->tiempo_atencion[i] = new float[cols]                                              ;
+  }
+}
+void Red::set_tiempo_aten(int i, int p, float val) { this->tiempo_atencion[i][p] = val      ;}
+float Red::get_tiempo_aten(int i, int p)           { return this->tiempo_atencion[i][p]     ;}
+
 //------------ Imprimir info red -----------
 void Red::imprimir_red(void){
   cout << endl                                                                              ;
-  cout << "N° nodos    : \t"   << this->get_cant_nodos()     << endl                        ;
-  cout << "N° arcos    : \t"   << this->get_cant_arcos()     << endl                        ;
-  cout << "N° periodos : \t"  << this->get_cant_periodos()  << endl                         ;
+  cout << "N° Nodos    : \t" << this->cant_nodos    << endl                                 ;
+  cout << "N° Arcos    : \t" << this->cant_arcos    << endl                                 ;
+  cout << "N° Periodos : \t" << this->cant_periodos << endl                                 ;
   cout << endl                                                                              ;
 }
 
@@ -81,6 +92,14 @@ void Red::imprimir_limites_periodos(void){
   for (int i=0; i<this->get_cant_periodos(); i++){
     cout << i+1 << "\t" << this->get_ini_periodo(i) << "\t"  << this->get_fin_periodo(i) << endl  ;
   }
+}
+
+//------------ imprimir tiempos de atencion de un nodo ------------
+void Red::imprimir_tiempos_nodo(int id){
+  for (int j=0; j<this->get_cant_periodos(); j++){
+    cout << this->get_tiempo_aten(id, j) << " "                                              ; 
+  }
+  cout << endl << endl                                                                      ;
 }
 
 

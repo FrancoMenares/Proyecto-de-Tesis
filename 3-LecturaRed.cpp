@@ -1,6 +1,7 @@
 
 #include "3-LecturaRed.h"
 
+
 Red *LecturaRed::lectura_red(){
   Red *grafo = new Red()                        ; //se crea una red
   this->fs = fstream( this->nombre_red)         ; //Ejecuta la lectura para la variable fs
@@ -85,6 +86,15 @@ Red *LecturaRed::lectura_red(){
   for (int i=0; i<grafo->get_cant_periodos(); i++){
     this->fs >> this->cadena                          ; //se lee la nueva linea
     grafo->set_periodo(i, 2, atof(cadena.c_str()))    ; //se seta el limite superior
+  }
+  
+  //-------------- Tiempos atencion nodos --------------
+  grafo->set_tam_tiempos_aten(grafo->get_cant_nodos(), grafo->get_cant_periodos()) ; //Se crea matriz para guardar tiempos de atencion
+  for (int i=0; i<grafo->get_cant_nodos(); i++){                                     //Se recorre cada nodo
+    for (int j=0; j<grafo->get_cant_periodos(); j++){                                //Se recorre cada periodo de tiempo
+      this->fs >> this->cadena                                                     ; //se lee la nueva linea
+      grafo->set_tiempo_aten(i, j, atof(cadena.c_str()))                           ; //Se agrega el tiempo a la matriz
+    }
   }
 
   //-------------- retorno de la la lectura --------------

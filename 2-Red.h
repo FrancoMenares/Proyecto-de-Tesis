@@ -17,6 +17,7 @@ class Red{
     vector <Nodo*> Nodos    ; //lista de nodos de la red
     float **tasas_fallo     ; //matriz de tasas de fallos
     float **limites_periodo ; //limite inferior y superior de cada periodo
+    float **tiempo_atencion ; //matriz de tiempos de atencion
 
   public:
     Red(){}                 ; //Constructor
@@ -57,10 +58,16 @@ class Red{
     float get_ini_periodo(int p)                    ;
     float get_fin_periodo(int p)                    ;
 
+    //------------ Tiempos atencion ------------
+    void set_tam_tiempos_aten(int fils, int cols)   ;
+    void set_tiempo_aten(int i, int p, float val)   ;
+    float get_tiempo_aten(int i, int p)             ;
+
     //------------ Impresiones -----------
     void imprimir_red(void)                         ;
     void imprimir_ady_nodo(int id)                  ;
     void imprimir_tasas_nodo(int id)                ;
     void imprimir_limites_periodos(void)            ;
+    void imprimir_tiempos_nodo(int id)              ;
 };
 
