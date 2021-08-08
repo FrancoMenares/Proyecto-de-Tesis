@@ -15,7 +15,6 @@ Instancia *LecturaInstancia::lectura_instancia(void){
   
   //-------------- cant clientes --------------
   getline(this->fs,linea)                              ; //Se obtiene la primera linea 
-  //problema->set_cant_clientes(atoi(linea.c_str()))     ; //Se setea la cantidad de clientes
   problema->set_cant_clientes(atoi(linea.c_str()));
   
   //-------------- clientes --------------

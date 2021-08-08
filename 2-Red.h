@@ -18,6 +18,7 @@ class Red{
     float **tasas_fallo     ; //matriz de tasas de fallos
     float **limites_periodo ; //limite inferior y superior de cada periodo
     float **tiempo_atencion ; //matriz de tiempos de atencion
+    float **costo_atencion  ; //matriz de tiempos de atencion
 
   public:
     Red(){}                 ; //Constructor
@@ -62,6 +63,11 @@ class Red{
     void set_tam_tiempos_aten(int fils, int cols)   ;
     void set_tiempo_aten(int i, int p, float val)   ;
     float get_tiempo_aten(int i, int p)             ;
+
+    //------------ Costos atencion ------------
+    void set_tam_costos_aten(int fils, int cols)    ;
+    void set_costo_aten(int i, int p, float val)    ;
+    float get_costo_aten(int i, int p)              ;
 
     //------------ Impresiones -----------
     void imprimir_red(void)                         ;

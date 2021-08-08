@@ -1,6 +1,4 @@
 
-#include <math.h>
-
 #include "7-Costos.h"
 
 
