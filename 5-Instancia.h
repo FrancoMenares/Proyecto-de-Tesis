@@ -16,6 +16,7 @@ class Instancia{
     int cap_camiones            ; //capacidad de los camiones
     float inicio_horizonte      ; //tiempo de inicio del horizonte de planificacion
     float termino_horizonte     ; //tiempo de termino del horizonte de planificacion
+    int cant_salidas            ; //cantidad de intervalos luego del preprocesar
   
   public:
     Instancia(){}               ; //Constructor
@@ -45,6 +46,10 @@ class Instancia{
     //--------------- termino_horizonte ---------------
     void set_termino(float termino)               ;
     float get_termino(void)                       ;
+    
+    //------------ cant_salidas -------------
+    void set_cant_salidas(int cant_salidas)       ;
+    int get_cant_salidas(void)                    ;
 
     //------------ Impresiones -----------
     void imprimir_instancia(void)                 ;    

@@ -3,12 +3,12 @@
 
 
 //--------------- id_cliente ---------------
-void Cliente::set_id_cliente(int id_cliente) { this->id_cliente = id_cliente ;}
-int Cliente::get_id_cliente(void)            { return this->id_cliente       ;}
+void Cliente::set_id_cliente(int id_cliente)          { this->id_cliente = id_cliente     ;}
+int Cliente::get_id_cliente(void)                     { return this->id_cliente           ;}
 
 //--------------- id_nodo ---------------
-void Cliente::set_id_nodo(int id_nodo)       { this->id_nodo = id_nodo       ;}
-int Cliente::get_id_nodo(void)               { return this->id_nodo          ;}
+void Cliente::set_id_nodo(int id_nodo)                { this->id_nodo = id_nodo           ;}
+int Cliente::get_id_nodo(void)                        { return this->id_nodo              ;}
 
 //------------ costo_hasta ------------
 void Cliente::set_tam_costo_hasta(int fils, int cols) {

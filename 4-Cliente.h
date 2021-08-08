@@ -8,14 +8,16 @@ using namespace std;
 
 class Cliente{
   private:
-    int id_cliente           ; //id de cliente
-    int id_nodo              ; //id de nodo
-    float **costo_hasta      ; //tiempo de viaje hasta todos los clientes
-    float **tiempo_hasta     ; //tiempo de viaje hasta todos los clientes
+    int id_cliente             ; //id de cliente
+    int id_nodo                ; //id de nodo
+    float **costo_hasta        ; //costo de viaje hasta todos los clientes
+    float **tiempo_hasta       ; //tiempo de viaje hasta todos los clientes
+    //vector <float> costo_aten  ; //costo de atencion del cliente
+    vector <float> tiempo_aten ; //tiempo de atencion del cliente
 
   public:
-    Cliente(){}              ; //Constructor
-    ~Cliente(){}             ; //Destructor
+    Cliente(){}                ; //Constructor
+    ~Cliente(){}               ; //Destructor
 
     //--------------- id_cliente ---------------
     void set_id_cliente(int id_cliente)              ;

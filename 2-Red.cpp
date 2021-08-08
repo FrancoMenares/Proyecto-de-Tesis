@@ -62,6 +62,16 @@ void Red::set_tam_tiempos_aten(int fils, int cols) {
 void Red::set_tiempo_aten(int i, int p, float val) { this->tiempo_atencion[i][p] = val      ;}
 float Red::get_tiempo_aten(int i, int p)           { return this->tiempo_atencion[i][p]     ;}
 
+//------------ Costos_atencion ------------
+void Red::set_tam_costos_aten(int fils, int cols) {
+  this->costo_atencion = new float*[fils]                                                  ;
+  for (int i=0; i<fils; i++){
+    this->costo_atencion[i] = new float[cols]                                              ;
+  }
+}
+void Red::set_costo_aten(int i, int p, float val) { this->costo_atencion[i][p] = val      ;}
+float Red::get_costo_aten(int i, int p)           { return this->costo_atencion[i][p]     ;}
+
 //------------ Imprimir info red -----------
 void Red::imprimir_red(void){
   cout << endl                                                                              ;

@@ -26,6 +26,10 @@ float Instancia::get_inicio(void)                    {return this->inicio_horizo
 //--------------- termino_horizonte ---------------
 void Instancia::set_termino(float termino)           {this->termino_horizonte = termino   ;}
 float Instancia::get_termino(void)                   {return this->termino_horizonte      ;}
+    
+//------------ cant_salidas -------------
+void Instancia::set_cant_salidas(int cant_salidas)   { this->cant_salidas = cant_salidas  ;}
+int Instancia::get_cant_salidas(void)                { return this->cant_salidas          ;} 
 
 //------------ Impresiones -----------
 void Instancia::imprimir_instancia(void){
