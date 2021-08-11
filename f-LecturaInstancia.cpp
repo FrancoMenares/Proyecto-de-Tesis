@@ -1,5 +1,5 @@
 
-#include "6-LecturaInstancia.h"
+#include "f-LecturaInstancia.h"
 
 
 Instancia *LecturaInstancia::lectura_instancia(void){
