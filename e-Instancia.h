@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-#include "4-Cliente.h"
+#include "d-Cliente.h"
 
 using namespace std;
 
@@ -17,6 +17,7 @@ class Instancia{
     float inicio_horizonte      ; //tiempo de inicio del horizonte de planificacion
     float termino_horizonte     ; //tiempo de termino del horizonte de planificacion
     int cant_salidas            ; //cantidad de intervalos luego del preprocesar
+    float frec_salidas          ; //frecuencia de preprocesamiento
   
   public:
     Instancia(){}               ; //Constructor
@@ -50,6 +51,10 @@ class Instancia{
     //------------ cant_salidas -------------
     void set_cant_salidas(int cant_salidas)       ;
     int get_cant_salidas(void)                    ;
+    
+    //------------ frec_salidas -------------
+    void set_frec_salidas(float frec_salidas)     ;
+    float get_frec_salidas(void)                  ;
 
     //------------ Impresiones -----------
     void imprimir_instancia(void)                 ;    

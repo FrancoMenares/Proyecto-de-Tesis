@@ -1,5 +1,5 @@
 #Aquí se agregan los objetos para compilar
-OBJS = main.o 1-Nodo.o 2-Red.o 3-LecturaRed.o 4-Cliente.o 5-Instancia.o 6-LecturaInstancia.o 7-Costos.o 8-TDDijkstra.o 9-Preprocesamiento.o
+OBJS = main.o a-Nodo.o b-Red.o c-LecturaRed.o d-Cliente.o e-Instancia.o f-LecturaInstancia.o g-Costos.o h-TDDijkstra.o i-Preprocesamiento.o j-Segmento.o k-Ruta.o l-Individuo.o m-Construccion.o
 
 #Para poner opciones de la versión de C++ a ocupar 
 FLAGS = -O3
@@ -20,7 +20,10 @@ salto:
 	.
 
 exe:
-	./Proyecto-de-Tesis Red-Carreteras/Red-Carreteras.txt Instancias/prueba.txt
+	./Proyecto-de-Tesis Red-Carreteras/Red-Carreteras.txt Instancias/prueba10.txt 30.0 123
+
+exe1:
+	./Proyecto-de-Tesis Red-Carreteras/Red-Carreteras.txt Instancias/prueba50.txt 30.0 123
 
 clean: 
 	rm -rf *.o Proyecto-de-Tesis

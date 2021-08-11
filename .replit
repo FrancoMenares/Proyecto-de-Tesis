@@ -1,3 +1,3 @@
 
 language = "cpp"
-run = "make; make salto; make exe"
+run = "make; make salto; make exe>111111.txt"

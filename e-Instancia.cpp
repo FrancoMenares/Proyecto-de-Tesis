@@ -1,5 +1,5 @@
 
-#include "5-Instancia.h"
+#include "e-Instancia.h"
 
 
 //--------------- cant_clientes ---------------
@@ -30,9 +30,14 @@ float Instancia::get_termino(void)                   {return this->termino_horiz
 //------------ cant_salidas -------------
 void Instancia::set_cant_salidas(int cant_salidas)   { this->cant_salidas = cant_salidas  ;}
 int Instancia::get_cant_salidas(void)                { return this->cant_salidas          ;} 
+    
+//------------ frec_salidas -------------
+void Instancia::set_frec_salidas(float frec_salidas) { this->frec_salidas = frec_salidas  ;}
+float Instancia::get_frec_salidas(void)              { return this->frec_salidas          ;}
 
 //------------ Impresiones -----------
 void Instancia::imprimir_instancia(void){
+  cout << "--------------------------------------------------------------------------------" << endl     ;
   cout << "Deposito         : \t" << this->get_cliente(this->get_cant_clientes())->get_id_nodo() << endl ;
   cout << "N° clientes      : \t" << this->cant_clientes                                         << endl ;
   cout << "Clientes         : \t"                                                                        ;
@@ -45,6 +50,7 @@ void Instancia::imprimir_instancia(void){
   cout << "N° Camiones      : \t" << this->cant_camiones                    << endl                      ;
   cout << "Cap. Camiones    : \t" << this->cap_camiones                     << endl                      ;
   cout << "Horizonte Plani. : \t" << this->inicio_horizonte << " - " << this->termino_horizonte << endl  ;
+  cout << "--------------------------------------------------------------------------------" << endl     ;
   cout << endl                                                                                           ;
 }
 

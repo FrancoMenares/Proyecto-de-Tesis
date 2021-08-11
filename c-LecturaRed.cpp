@@ -1,5 +1,5 @@
 
-#include "3-LecturaRed.h"
+#include "c-LecturaRed.h"
 
 
 Red *LecturaRed::lectura_red(){
