@@ -101,7 +101,7 @@ void Red::imprimir_tiempos_nodo(int id){
   for (int j=0; j<this->get_cant_periodos(); j++){
     cout << this->get_tiempo_aten(id, j) << " "                                              ; 
   }
-  cout << endl << endl                                                                      ;
+  cout << endl << endl                                                                       ;
 }
 
 

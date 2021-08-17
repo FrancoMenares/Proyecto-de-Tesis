@@ -20,7 +20,8 @@ class Segmento{
     int   demanda_t     ; //demanda al termino del segmento
 
   public:
-    Segmento(Cliente* cliente_i, Cliente* cliente_j) ; //construcctor
+    Segmento(Cliente* cliente_i, Cliente* cliente_j) ; //construcctor 1
+    Segmento(const Segmento &s)                      ; //construcctor 2
     ~Segmento(){}                                    ; //destrucctor
 
     //------------- clientes -------------

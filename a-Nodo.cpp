@@ -20,7 +20,7 @@ Nodo* Nodo::get_padre(void)           { return this->padre    ;}
 
 //------------- imprimir -------------
 void Nodo::imprimir_nodo(void){
-  cout << "Id          : \t" << this->id     << endl          ;
+  cout << "Id          : \t" << this->id+1   << endl          ;
   cout << "Costo       : \t" << this->costo  << endl          ;
   cout << "Tiempo      : \t" << this->tiempo << endl          ;
   cout << "Padre       : \t" << this->padre  << endl          ;

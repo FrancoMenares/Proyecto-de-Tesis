@@ -5,7 +5,6 @@
 #include <queue>
 
 #include "b-Red.h"
-#include "e-Instancia.h"
 #include "g-Costos.h"
 
 using namespace std;

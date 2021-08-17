@@ -53,6 +53,9 @@ void Preprocesamiento::preprocesar_red(Red* red, Instancia* instancia, float fre
 
   this->tiempo_ejecucion = difftime(clock(), t_inicial)/CLOCKS_PER_SEC  ; //se setea el tiempo de ejecucion
   instancia->set_frec_salidas(frecuencia)                               ; //se setea la frecuencia de salida
+
+  delete rutas  ;
+  delete costos ;
 }
 
 
