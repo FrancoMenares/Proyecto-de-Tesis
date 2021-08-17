@@ -26,6 +26,7 @@ class Individuo{
     //------------- rutas -------------
     void agregar_ruta(Ruta* ruta)             ;
     void reemplazar_ruta(int pos, Ruta* ruta) ;
+    void eliminar_ruta(int pos)               ;
     Ruta* get_ruta(int pos)                   ;
     vector <Ruta*> get_rutas(void)            ;
 

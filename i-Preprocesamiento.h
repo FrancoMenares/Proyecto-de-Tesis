@@ -13,7 +13,7 @@ using namespace std;
 
 class Preprocesamiento{
   private:
-    float tiempo_ejecucion ;
+    float tiempo_ejecucion ; //tiempo de ejecucion
 
   public:
     Preprocesamiento(){}   ; //Constructor    

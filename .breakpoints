@@ -1,3 +1,12 @@
 {
-  "files": {}
+  "files": {
+    "Resultados/FrentePareto.txt": [
+      {
+        "id": "f0e0821a-71fb-4aea-aed6-71a2da1e7221",
+        "line": 1,
+        "version": 3,
+        "index": 0
+      }
+    ]
+  }
 }

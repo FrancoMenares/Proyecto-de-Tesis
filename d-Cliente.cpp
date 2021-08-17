@@ -44,9 +44,9 @@ float Cliente::get_tasas_fallo(int pos)                 {return this->tasas_fall
 
 //---------- impresiones -----------
 void Cliente::imprimir_cliente(void){
-  cout << "Cliente     : \t" << this->id_cliente << endl ;
-  cout << "Nodo        : \t" << this->id_nodo    << endl ;
-  cout << endl                                           ;
+  cout << "Cliente     : \t" << this->id_cliente+1 << endl ;
+  cout << "Nodo        : \t" << this->id_nodo+1    << endl ;
+  cout << endl                                             ;
 }
 
 

@@ -20,8 +20,9 @@ class Ruta{
     int capacidad_restante       ; //capacidad de atencion disponible
 
   public:
-    Ruta(int id) ; //construcctor
-    ~Ruta(){}    ; //destrucctor
+    Ruta(int id)        ; //construcctor 1
+    Ruta(const Ruta &r) ; //construcctor 2
+    ~Ruta(){}           ; //destrucctor
 
     //------------- id -------------
     void set_id(int id)                                 ;
@@ -29,6 +30,8 @@ class Ruta{
 
     //------------- segmentos -------------
     void agregar_segmento(Segmento* segmento)           ;
+    void insertar_segmento(int pos, Segmento* segmento) ;
+    void eliminar_segmento(int pos)                     ;
     Segmento* get_segmento(int pos)                     ;
     vector <Segmento*> get_segmentos(void)              ;
 

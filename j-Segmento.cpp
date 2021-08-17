@@ -2,9 +2,22 @@
 #include "j-Segmento.h"
 
 
+//------------- constructores -------------
 Segmento::Segmento(Cliente* cliente_i, Cliente* cliente_j){
   this->cliente_i = cliente_i ;
   this->cliente_j = cliente_j ;
+}
+
+Segmento::Segmento(const Segmento &s){
+    this->cliente_i = s.cliente_i ;
+    this->cliente_j = s.cliente_j ;
+    this->tiempo_i = s.tiempo_i   ;
+    this->costo_i = s.costo_i     ;
+    this->tasa_i = s.tasa_i       ;
+    this->tiempo_t = s.tiempo_t   ;
+    this->costo_t = s.costo_t     ;
+    this->tasa_t = s.tasa_t       ;
+    this->demanda_t = s.demanda_t ;
 }
 
 //------------- clientes -------------
@@ -44,11 +57,11 @@ int Segmento::get_demanda_t(void)                { return this->demanda_t      ;
 
 //------------- imprimir segmento -------------
 void Segmento::imprimir_segmento(void){
-  cout << "Segemento :\t" << this->cliente_i->get_id_nodo() << " - " << this->cliente_j->get_id_nodo() << endl ;
-  cout << "Tiempo    :\t" << this->tiempo_i                 << " - " << this->tiempo_t                 << endl ;
-  cout << "Costo     :\t" << this->costo_i                  << " - " << this->costo_t                  << endl ;
-  cout << "Tasa      :\t" << this->tasa_i                   << " - " << this->tasa_t                   << endl ;
-  cout << "Demanda   :\t" << this->demanda_t                                                           << endl ;
+  cout << "Segmento :\t" << this->cliente_i->get_id_nodo()+1 << " - " << this->cliente_j->get_id_nodo()+1 << endl ;
+  cout << "Tiempo   :\t" << this->tiempo_i                   << " - " << this->tiempo_t                   << endl ;
+  cout << "Costo    :\t" << this->costo_i                    << " - " << this->costo_t                    << endl ;
+  cout << "Tasa     :\t" << this->tasa_i                     << " - " << this->tasa_t                     << endl ;
+  cout << "Demanda  :\t" << this->demanda_t                                                               << endl ;
   cout << endl ;
 }
 

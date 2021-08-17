@@ -19,6 +19,7 @@ void Individuo::reemplazar_ruta(int pos, Ruta* ruta) {
   delete rutas.at(pos); 
   rutas.at(pos) = ruta                                                   ;
 }
+void Individuo::eliminar_ruta(int pos)     { this->rutas.erase(this->rutas.begin()+pos) ;}
 Ruta* Individuo::get_ruta(int pos)         { return this->rutas.at(pos)  ;}
 vector <Ruta*> Individuo::get_rutas(void)  { return this->rutas          ;}
 
@@ -30,9 +31,11 @@ void Individuo::set_f2(float f2)           { this->f2 = f2               ;}
 float Individuo::get_f2(void)              { return this->f2             ;}
 
 void Individuo::actualizar_funciones(void){
+  this->f1 = 0 ;
+  this->f2 = 0 ;
   for (Ruta* i: this->rutas){
-    this->f1 = this->f1 + i->get_aporte_f1()*100;
-    this->f2 = this->f2 + i->get_aporte_f2()*100;
+    this->f1 = (int)this->f1 + i->get_aporte_f1()*100;
+    this->f2 = (int)this->f2 + i->get_aporte_f2()*100;
   }
   this->f1 = (float)this->f1/100 ;
   this->f2 = (float)this->f2/100 ;
@@ -49,6 +52,7 @@ void Individuo::imprimir_individuo(void){
 
   for (Ruta* i: this->rutas){
     i->imprimir_ruta()                 ;
+    cout << endl                       ;
   } 
   cout << "--------------------------------------------------------------------------------" << endl ;
   cout << endl                         ;

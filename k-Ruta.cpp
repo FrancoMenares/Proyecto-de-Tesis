@@ -1,18 +1,34 @@
-
+//
 #include "k-Ruta.h"
 
 
-//------------- constructor -------------
-Ruta::Ruta(int id)                                        { this->id = id                                 ;}
+//------------- constructores -------------
+Ruta::Ruta(int id)       { this->id = id          ;}
+
+Ruta::Ruta(const Ruta &r){
+  this->id = r.id                                 ; 
+  this->aporte_f1 = r.aporte_f1                   ; 
+  this->aporte_f2 = r.aporte_f2                   ; 
+  this->tiempo_inicio = r.tiempo_inicio           ; 
+  this->tiempo_termino = r.tiempo_termino         ; 
+  this->tiempo_restante = r.tiempo_restante       ; 
+  this->capacidad_restante = r.capacidad_restante ; 
+  for (Segmento* i: r.segmentos){
+    Segmento* j = new Segmento(*i)                ;
+    this->segmentos.push_back(j)                  ;
+  }
+}
 
 //------------- id -------------
 void Ruta::set_id(int id)                                 { this->id = id                                 ;}
 int Ruta::get_id(void)                                    { return this->id                               ;}
 
 //------------- segmentos -------------
-void Ruta::agregar_segmento(Segmento* segmento)           { this->segmentos.push_back(segmento)           ;}
-Segmento* Ruta::get_segmento(int pos)                     { return this->segmentos.at(pos)                ;}
-vector <Segmento*> Ruta::get_segmentos(void)              { return this->segmentos                        ;}
+void Ruta::agregar_segmento(Segmento* segmento)           { this->segmentos.push_back(segmento)                           ;}
+void Ruta::insertar_segmento(int pos, Segmento* segmento) { this->segmentos.insert(this->segmentos.begin()+pos, segmento) ;}
+void Ruta::eliminar_segmento(int pos)                     { this->segmentos.erase(this->segmentos.begin()+pos)            ;}
+Segmento* Ruta::get_segmento(int pos)                     { return this->segmentos.at(pos)                                ;}
+vector <Segmento*> Ruta::get_segmentos(void)              { return this->segmentos                                        ;}
 
 //------------- aporte f1 -------------
 void Ruta::set_aporte_f1(float aporte_f1)                 { this->aporte_f1 = aporte_f1                   ;}
@@ -51,12 +67,10 @@ void Ruta::imprimir_ruta(void){
 
   for (int i=0; i<this->segmentos.size(); i++){
     if (i == this->segmentos.size()-1){
-      cout << this->get_segmento(i)->get_cliente_i()->get_id_nodo() << " - " ;
-      cout << this->get_segmento(i)->get_cliente_j()->get_id_nodo() << endl ;
+      cout << this->get_segmento(i)->get_cliente_i()->get_id_nodo()+1 << " - " ;
+      cout << this->get_segmento(i)->get_cliente_j()->get_id_nodo()+1 << endl  ;
     } else {
-      cout << this->get_segmento(i)->get_cliente_i()->get_id_nodo() << " - " ;
-      //cout << this->get_segmento(i)->get_cliente_j()->get_id_nodo() << endl ;
+      cout << this->get_segmento(i)->get_cliente_i()->get_id_nodo()+1 << " - " ;
     } 
   }
-  cout << endl ;
 }

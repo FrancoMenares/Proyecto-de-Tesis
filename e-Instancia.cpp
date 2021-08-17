@@ -37,20 +37,20 @@ float Instancia::get_frec_salidas(void)              { return this->frec_salidas
 
 //------------ Impresiones -----------
 void Instancia::imprimir_instancia(void){
-  cout << "--------------------------------------------------------------------------------" << endl     ;
-  cout << "Deposito         : \t" << this->get_cliente(this->get_cant_clientes())->get_id_nodo() << endl ;
-  cout << "N° clientes      : \t" << this->cant_clientes                                         << endl ;
-  cout << "Clientes         : \t"                                                                        ;
+  cout << "--------------------------------------------------------------------------------" << endl       ;
+  cout << "Deposito         : \t" << this->get_cliente(this->get_cant_clientes())->get_id_nodo()+1 << endl ;
+  cout << "N° clientes      : \t" << this->cant_clientes                                         << endl   ;
+  cout << "Clientes         : \t"                                                                          ;
   for (int i=0; i<this->cant_clientes; i++){
-    cout << this->get_cliente(i)->get_id_nodo() << " "                                                   ;
+    cout << this->get_cliente(i)->get_id_nodo()+1 << " "                                                   ;
     if (i+1 == this->cant_clientes){
-      cout << endl                                                                                       ;
+      cout << endl                                                                                         ;
     }
   }
-  cout << "N° Camiones      : \t" << this->cant_camiones                    << endl                      ;
-  cout << "Cap. Camiones    : \t" << this->cap_camiones                     << endl                      ;
-  cout << "Horizonte Plani. : \t" << this->inicio_horizonte << " - " << this->termino_horizonte << endl  ;
-  cout << "--------------------------------------------------------------------------------" << endl     ;
-  cout << endl                                                                                           ;
+  cout << "N° Camiones      : \t" << this->cant_camiones                    << endl                        ;
+  cout << "Cap. Camiones    : \t" << this->cap_camiones                     << endl                        ;
+  cout << "Horizonte Plani. : \t" << this->inicio_horizonte << " - " << this->termino_horizonte << endl    ;
+  cout << "--------------------------------------------------------------------------------" << endl       ;
+  cout << endl                                                                                             ;
 }
 
