@@ -57,5 +57,8 @@ class Instancia{
     float get_frec_salidas(void)                  ;
 
     //------------ Impresiones -----------
+    void verificar_instancia(void)                ;
+
+    //------------ Impresiones -----------
     void imprimir_instancia(void)                 ;    
 };

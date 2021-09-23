@@ -43,7 +43,7 @@ void Trazado::imprimir_ruta(Individuo* individuo, Red* red, Instancia* instancia
       x2=0   ;
     }
 
-    cout << individuo->get_id() << k << " " << x1 << " " << x2 << endl ;
+    cout << /* individuo->get_id() <<*/ k << " " << x1 << " " << x2 << endl ;
     x2++     ;
   }
   

@@ -2,7 +2,6 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include <queue>
 #include <random>
 
 #include "e-Instancia.h"
@@ -17,16 +16,18 @@ class CambioCliente{
   public:
     CambioCliente(){}       ; //Constructor
     ~CambioCliente(){}      ; //Destructor
-    
+
     //--------------- cambio nodo aleatorio ---------------
     void cambiar_cliente_aleatorio(Individuo* individuo, Instancia* instancia) ; 
 
     //--------------- actualizacion de la ruta ---------------
     bool actualizar_ruta_desde(Instancia* instancia, Ruta* ruta, int desde) ;
 
-    //--------------- actualizacion de la ruta ---------------
+    //--------------- evaluacion de la ruta ---------------
     bool evaluar_ruta_desde(Instancia* instancia, Ruta* ruta, int desde) ;
 
-    //--------------- agregar nueva ruta a la solucion ---------------
-    Ruta* agregar_ruta_nueva(Instancia* instancia, Cliente* cliente, int id) ;
+    //---------------crearcion de una nueva ruta ---------------
+    Ruta* crear_nueva_ruta(Instancia* instancia, Segmento* aux1, Segmento* aux2, int id) ;
 };
+
+
