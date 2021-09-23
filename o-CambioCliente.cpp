@@ -2,6 +2,7 @@
 #include "o-CambioCliente.h"
 
 
+
 //--------------- actualizacion de la ruta ---------------
 bool CambioCliente::actualizar_ruta_desde(Instancia* instancia, Ruta* ruta, int desde){
   Segmento* i = ruta->get_segmento(desde) ;
@@ -48,7 +49,7 @@ bool CambioCliente::actualizar_ruta_desde(Instancia* instancia, Ruta* ruta, int 
 }
 
 
-//--------------- actualizacion de la ruta ---------------
+//--------------- evaluacion de la ruta ---------------
 bool CambioCliente::evaluar_ruta_desde(Instancia* instancia, Ruta* ruta, int desde){
   Segmento* i = ruta->get_segmento(desde) ;
   float h_fin = instancia->get_termino()  ; //termino de horizonte de planificacion
@@ -65,105 +66,216 @@ bool CambioCliente::evaluar_ruta_desde(Instancia* instancia, Ruta* ruta, int des
       p = tiempo / instancia->get_frec_salidas()               ; //se identifica periodo de tiempo
       tiempo = tiempo + i->get_cliente_j()->get_tiempo_aten(p) ; //se suma el tiempo de atencion
     }
+
     if (tiempo > h_fin){ return false ;} //si se supera el horizonte de panificacion de detiene el calculo
   }
-  return true ;
+  return true ; //retorna verdadero si el cambio es factible
 }
 
 
-//--------------- agregar nueva ruta a la solucion ---------------
-Ruta* CambioCliente::agregar_ruta_nueva(Instancia* instancia, Cliente* cliente, int id){
-  Ruta* ruta = new Ruta(id) ; //se crea un nuevo objeto de tipo ruta
+//---------------crearcion de una nueva ruta ---------------
+Ruta* CambioCliente::crear_nueva_ruta(Instancia* instancia, Segmento* aux1, Segmento* aux2, int id){
+  Ruta* ruta = new Ruta(id) ; //se crea una nueva ruta
 
-  Segmento* aux1 = new Segmento(instancia->get_cliente(instancia->get_cant_clientes()), cliente) ; //segmento deposito-cliente
-  Segmento* aux2 = new Segmento(cliente, instancia->get_cliente(instancia->get_cant_clientes())) ; //segmento cliente-deposito
+  aux1->set_cliente_i(instancia->get_cliente(instancia->get_cant_clientes())) ; //se identifica el deposito
+  aux1->set_cliente_j(aux2->get_cliente_i())                                  ; //se identifica el cliente j
+  aux2->set_cliente_j(instancia->get_cliente(instancia->get_cant_clientes())) ; //se identifica el deposito
 
-  aux1->set_demanda_t(1)       ; //se setea la demanda del cliente
-  ruta->agregar_segmento(aux1) ; //se agrega segmento 1 a la ruta vacia
-  ruta->agregar_segmento(aux2) ; //se agrega segmento 2 a la ruta
-  return ruta                  ; //se retorna la nueva ruta
-} 
+  ruta->agregar_segmento(aux1) ; //se agrega segmento 1 a la nueva ruta
+  ruta->agregar_segmento(aux2) ; //se agrega segmento 2 a la nueva ruta
+
+  int h_inicio = instancia->get_inicio()*100 ; //limite inferior de la nueva hora
+  int h_fin = instancia->get_termino()*100   ; //limite superior de la nueva hora
+  
+  aux1->set_costo_i(0)   ; //se setea el costo de inicio en el primer segmento
+  aux1->set_tasa_i(0)    ; //se setea la tasa de inicio en el primer segmento
+  aux1->set_demanda_t(1) ; //de setea la demananda de termino en el primer segmento
+
+  bool bandera = false   ; //bandera de ruta factible
+  while (!bandera){
+    float hora_inicio = (float)(rand()%(h_fin - h_inicio + 1) + h_inicio)/100 ; //hora de salida aleatoria 
+    aux1->set_tiempo_i(hora_inicio)                                           ; //se setea la hora de inicio en el segmento 1
+    ruta->set_tiempo_inicio(hora_inicio)                                      ; //se setea la hora de inicio en la ruta
+
+    bandera = this->actualizar_ruta_desde(instancia, ruta, 0)                 ; //se actualizan los costos de la ruta
+
+    h_fin = hora_inicio*100                                                   ; //se limita la nueva hora de salida
+  }
+  
+  return ruta ; //se retorna la nueva ruta
+}
 
 
 //--------------- cambio nodo aleatorio ---------------
 void CambioCliente::cambiar_cliente_aleatorio(Individuo* individuo, Instancia* instancia){
-  
-  // ================================ fase de extraccion del cliente ================================ 
-  int elegir_r = rand()%(individuo->get_rutas().size())   ; //se escoge ruta para extraer cliente
-  Ruta* ruta = individuo->get_ruta(elegir_r)              ; //se identifica la ruta
-  int elegir_s = rand()%(ruta->get_segmentos().size()-1)  ; //se escoge segmento para extraer cliente j
-  Segmento* aux = ruta->get_segmento(elegir_s+1)          ; //se identifica el segmento siguiente
-  //individuo->imprimir_individuo();
-  
-  ruta->get_segmento(elegir_s)->set_cliente_j(aux->get_cliente_j()) ; //se actualiza el cliente j en segmento elegido
-  ruta->eliminar_segmento(elegir_s+1)                               ; //se elimina de la ruta el segmento siguiente
 
-  if (ruta->get_segmentos().size() == 1){                    //si la ruta queda sin cliente (segmento deposito-deposito)
-    delete ruta->get_segmento(0)                           ; //se elimina el segmento
-    delete ruta                                            ; //se elimina la ruta
-    individuo->eliminar_ruta(elegir_r)                     ;
+  // ================================ fase de extración del cliente ================================ 
+  int elegir_r = rand()%(individuo->get_rutas().size())  ; //se escoge ruta para extraer cliente
+  Ruta* ruta = individuo->get_ruta(elegir_r)             ; //se identifica la ruta
+  int elegir_s = rand()%(ruta->get_segmentos().size()-1) ; //se escoge segmento para extraer cliente j
+
+  Segmento* aux1 = ruta->get_segmento(elegir_s+1) ; //se identifica el segmento siguiente
+  Segmento* aux2 = new Segmento(*aux1)            ; //se respalda el segmento siguiente
+  int aux3 = elegir_r                             ; //se respalda la ruta del segmento elegido
+  int aux4 = elegir_s                             ; //se respalda la posicion del segmento elegido
+  int aux5 = individuo->get_rutas().size()        ; //se respalda cuantas rutas existian
+
+  ruta->eliminar_segmento(elegir_s+1)                                ; //se elimina el segmento siguiente de la ruta
+  ruta->get_segmento(elegir_s)->set_cliente_j(aux1->get_cliente_j()) ; //se actualiza j en el segmento elegido
+  
+  individuo->set_f1(individuo->get_f1() - ruta->get_aporte_f1()) ; //se actualiza f1 del individuo
+  individuo->set_f2(individuo->get_f2() - ruta->get_aporte_f2()) ; //se actualiza f2 del individuo
+  
+  bool bandera = false                       ; //bandera para detectar un cambio factible
+  int h_inicio = instancia->get_inicio()*100 ; //limite inferior de la nueva hora
+  int h_fin                                  ; //limite superior de la nueva hora
+  float hora_inicio                          ; //hora de inicio aleatoria entre los limites
+
+  if (ruta->get_segmentos().size() == 1){   //si la ruta solo le queda un segmento (no hay clientes)
+    int id = ruta->get_id()               ; //se guarda el id de la ruta
+    delete ruta                           ; //se destruye la ruta
+    individuo->eliminar_ruta(elegir_r)    ; //se elimina la ruta del individuo
+
+    for(int i=id; i<individuo->get_rutas().size(); i++){
+      individuo->get_ruta(i)->set_id(i)   ; //se actualiza el id de las rutas siguientes
+    }
+
   } else {
-    this->actualizar_ruta_desde(instancia, ruta, elegir_s) ; //se actualizan los parametros del recorrido
+    /*
+    while (!bandera){
+      bandera = this->actualizar_ruta_desde(instancia, ruta, elegir_s) ; //se actualiza la ruta
+
+      if (!bandera){                                                          //si la actualizacion no es factible
+        elegir_s = 0                                                        ; //se reevalua desde el inicio a otra hora
+        h_fin = ruta->get_tiempo_inicio()*100                               ; //limite superior de la nueva hora
+        hora_inicio = (float)(rand()%(h_fin - h_inicio + 1) + h_inicio)/100 ; //se escoge una hora previa a la anterior
+        ruta->set_tiempo_inicio(hora_inicio)                                ; //se setea en el primer segmento
+        ruta->get_segmento(elegir_s)->set_tiempo_i(hora_inicio)             ; //se setea en la ruta
+      }
+    }
+    */
+
+    ///*
+    //******************************************************************************************************************
+    for (int i=0; i<10; i++){
+      bandera = this->actualizar_ruta_desde(instancia, ruta, elegir_s)      ; //se actualiza la ruta
+      
+      if (bandera){                                                           //si se encuentra rura factible
+        break                                                               ;
+      } else {                                                                //si la actualizacion no es factible
+        elegir_s = 0                                                        ; //se reevalua desde el inicio a otra hora
+        h_fin = ruta->get_tiempo_inicio()*100                               ; //limite superior de la nueva hora
+        hora_inicio = (float)(rand()%(h_fin - h_inicio + 1) + h_inicio)/100 ; //se escoge una hora previa a la anterior
+        ruta->set_tiempo_inicio(hora_inicio)                                ; //se setea en el primer segmento
+        ruta->get_segmento(elegir_s)->set_tiempo_i(hora_inicio)             ; //se setea en la ruta
+      }
+    }
+
+    if (!bandera){                            //si no se encuentra ruta factible se restaura la original
+      ruta = individuo->get_ruta(aux3)      ; //se identifica la ruta a resturar
+      ruta->insertar_segmento(aux4+1, aux2) ; //se inserta el segmento antes eliminado
+
+      ruta->get_segmento(aux4)->set_cliente_j(aux2->get_cliente_i()) ; //se restaura secuencia
+
+      if (aux2->get_cliente_j() == instancia->get_cliente(instancia->get_cant_clientes())){
+        ruta->get_segmento(aux4)->set_demanda_t(aux2->get_demanda_t()) ; //se ajusta demanda acumulada
+      }
+      
+      this->actualizar_ruta_desde(instancia, ruta, aux4)             ; //se realiza el cambio
+
+      individuo->set_f1(individuo->get_f1() + ruta->get_aporte_f1()) ; //se actualiza f1 del individuo
+      individuo->set_f2(individuo->get_f2() + ruta->get_aporte_f2()) ; //se actualiza f2 del individuo
+
+      return ;
+    }
+    //******************************************************************************************************************
+    //*/
+
+    individuo->set_f1(individuo->get_f1() + ruta->get_aporte_f1()) ; //se actualiza f1 del individuo
+    individuo->set_f2(individuo->get_f2() + ruta->get_aporte_f2()) ; //se actualiza f2 del individuo
   }
-  individuo->actualizar_funciones() ; //se actualizan las funciones de evaluacion
-  //individuo->imprimir_individuo()   ;
-
-  int elegir_r2 = elegir_r ;
-  int elegir_s2 = elegir_s ;
-
-
+  
   // ================================ fase de insercion del cliente ================================ 
+  
   int cant_rutas                                                        ; //rutas donde se pueden insertar el cliente
   if (individuo->get_rutas().size() == instancia->get_cant_camiones()){   //si no quedan camiones disponibles
     cant_rutas = individuo->get_rutas().size()                          ; //se escoge entre una ruta existente
   } else {                                                                //si quedan camiones disponibles
     cant_rutas = individuo->get_rutas().size()+1                        ; //se puede agregar una nueva ruta
   }
+  bandera = false                                                       ; //bandera de insercion factible 
 
-  bool bandera = false             ; //bandera de insercion factible
-  while (bandera == false){
-    elegir_r = rand()%(cant_rutas) ; //se escoge ruta para agregar el cliente
+  for (int i=0; i<5; i++){
+    elegir_r = rand()%(cant_rutas)                                   ; //se escoge ruta para agregar el cliente
 
-    if (elegir_r == individuo->get_rutas().size()){                                //si se elige una agregar una ruta nueva
-      ruta = this->agregar_ruta_nueva(instancia, aux->get_cliente_i(), elegir_r) ; //se crea la nueva ruta
+    if (elegir_r == individuo->get_rutas().size()){                    //si se elige agregar una ruta nueva
+      ruta = this->crear_nueva_ruta(instancia, aux1, aux2, elegir_r) ; //se crea una ruta factible
+      individuo->agregar_ruta(ruta)                                  ; //se agrega la ruta a la solucion
 
-      int h_ini = instancia->get_inicio()*100  ; //hora minima a la que puede iniciar la ruta
-      int h_fin = instancia->get_termino()*100 ; //hora maxima a la que puede iniciar la ruta
-      float hora_inicio                        ; //hora de inicio de la ruta
+      individuo->set_f1(individuo->get_f1() + ruta->get_aporte_f1()) ; //se actualiza f1 del individuo
+      individuo->set_f2(individuo->get_f2() + ruta->get_aporte_f2()) ; //se actualiza f2 del individuo
 
-      while (bandera == false){                                         //mientras no se encuentre una hora factible
-        h_fin = h_fin - hora_inicio*100                               ; //se actualiza la hora maxima de termino
-        hora_inicio = (float)(rand()%(h_fin - h_ini + 1) + h_ini)/100 ; //se obtiene una hora de inicio aleatoria
-        ruta->set_tiempo_inicio(hora_inicio)                          ; //se setea la hora de inicio de la ruta
-        ruta->get_segmento(0)->set_tiempo_i(hora_inicio)              ; //se setea la hora de inicio del primer segmento
-        bandera = this->actualizar_ruta_desde(instancia, ruta, 0)     ; //se actualizan parametros de la ruta
-      }
-      individuo->agregar_ruta(ruta)                                   ; //se agrega la ruta a la solucion
+      bandera = true ; //se creo una ruta factible
+      break          ;
+
 
     } else {
-      ruta = individuo->get_ruta(elegir_r)                 ; //se identifica la ruta
-      if (ruta->get_capacidad_restante() > 0){             ; //si la ruta tiene capacidad de atencion
-        elegir_s = rand()%(ruta->get_segmentos().size()-1) ; //se escoge segmento para donde insertar al cliente j
+      ruta = individuo->get_ruta(elegir_r)               ; //se identifica la ruta
+      elegir_s = rand()%(ruta->get_segmentos().size()-1) ; //se escoge segmento para insertar cliente j
 
-        if (elegir_r2 == elegir_r && elegir_s2 == elegir_s){
-          continue ;
-        }
+      ruta->insertar_segmento(elegir_s+1, aux1)          ; //se agrega segmento a la ruta
 
-        ruta->insertar_segmento(elegir_s+1, aux)           ; //se inserta el segmento en la posicion siguiente de la ruta 
+      aux1->set_cliente_j(ruta->get_segmento(elegir_s)->get_cliente_j()) ; //se identifica cliente j
+      ruta->get_segmento(elegir_s)->set_cliente_j(aux1->get_cliente_i()) ; //se identifica cliente j anterior
+      
+      bandera = this->evaluar_ruta_desde(instancia, ruta, elegir_s)      ; //se evalua factibilidad del cambio
 
-        ruta->get_segmento(elegir_s)->set_cliente_j(aux->get_cliente_i())   ; //se ajusta el segmento anterior
-        aux->set_cliente_j(ruta->get_segmento(elegir_s+2)->get_cliente_i()) ; //se ajusta el segmento siguiente
-        bandera = this->evaluar_ruta_desde(instancia, ruta, elegir_s)       ; //se evalua si el movimiento es factible
+      if (bandera){                                                      //si el cambio es factible
+        individuo->set_f1(individuo->get_f1() - ruta->get_aporte_f1()) ; //se actualiza f1 del individuo
+        individuo->set_f2(individuo->get_f2() - ruta->get_aporte_f2()) ; //se actualiza f2 del individuo
 
-        if (bandera == false){                                                                           //si el movimiento no es factible
-          ruta->eliminar_segmento(elegir_s+1)                                                          ; //se elimina segmento agregado
-          ruta->get_segmento(elegir_s)->set_cliente_j(ruta->get_segmento(elegir_s+1)->get_cliente_i()) ; //se ajusta secmento anterior
-        } else {                                                                                         // si el movimiento es factible 
-          this->actualizar_ruta_desde(instancia, ruta, elegir_s)                                       ; //se actualizan parametros del recorrido
-        }
+        this->actualizar_ruta_desde(instancia, ruta, elegir_s)         ; //se realiza el cambio
+
+        individuo->set_f1(individuo->get_f1() + ruta->get_aporte_f1()) ; //se actualiza f1 del individuo
+        individuo->set_f2(individuo->get_f2() + ruta->get_aporte_f2()) ; //se actualiza f2 del individuo
+
+        delete aux2 ; //se elimina el segmento respaldado
+        break       ;
       }
+
+      ruta->eliminar_segmento(elegir_s+1)                                ; //se elimina segmento insertado
+      ruta->get_segmento(elegir_s)->set_cliente_j(aux1->get_cliente_j()) ; //se restaura la condicion de la ruta
     }
   }
-  individuo->actualizar_funciones() ; //se actualizan las funciones de evaluacion
-  //individuo->imprimir_individuo()   ;
+
+
+  if (!bandera){
+    if (individuo->get_rutas().size() < aux5){ 
+      ruta = this->crear_nueva_ruta(instancia, aux1, aux2, aux5-1) ; //se crea una ruta factible
+      individuo->agregar_ruta(ruta)                                ; //se agrega la ruta a la solucion
+
+      individuo->set_f1(individuo->get_f1() + ruta->get_aporte_f1()) ; //se actualiza f1 del individuo
+      individuo->set_f2(individuo->get_f2() + ruta->get_aporte_f2()) ; //se actualiza f2 del individuo
+
+
+    } else {
+      ruta = individuo->get_ruta(aux3)      ; //se identifica la ruta a resturar
+      ruta->insertar_segmento(aux4+1, aux2) ; //se inserta el segmento antes eliminado
+
+      ruta->get_segmento(aux4)->set_cliente_j(aux2->get_cliente_i()) ; //se restaura secuencia
+
+      if (aux2->get_cliente_j() == instancia->get_cliente(instancia->get_cant_clientes())){
+        ruta->get_segmento(aux4)->set_demanda_t(aux2->get_demanda_t()) ; //se ajusta demanda acumulada
+      }
+
+      individuo->set_f1(individuo->get_f1() - ruta->get_aporte_f1()) ; //se actualiza f1 del individuo
+      individuo->set_f2(individuo->get_f2() - ruta->get_aporte_f2()) ; //se actualiza f2 del individuo
+
+      this->actualizar_ruta_desde(instancia, ruta, aux4)             ; //se realiza el cambio
+
+      individuo->set_f1(individuo->get_f1() + ruta->get_aporte_f1()) ; //se actualiza f1 del individuo
+      individuo->set_f2(individuo->get_f2() + ruta->get_aporte_f2()) ; //se actualiza f2 del individuo
+    }
+  }
 }
+

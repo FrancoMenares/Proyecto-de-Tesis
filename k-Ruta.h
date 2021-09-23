@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 
+#include "e-Instancia.h"
 #include "j-Segmento.h"
 
 using namespace std;
@@ -22,7 +23,7 @@ class Ruta{
   public:
     Ruta(int id)        ; //construcctor 1
     Ruta(const Ruta &r) ; //construcctor 2
-    ~Ruta(){}           ; //destrucctor
+    ~Ruta()             ; //destrucctor
 
     //------------- id -------------
     void set_id(int id)                                 ;
@@ -61,4 +62,5 @@ class Ruta{
 
     //------------- imprimir ruta -------------
     void imprimir_ruta(void)                            ;
+    void imprimir_ruta_2(Instancia* instancia)          ;
 };

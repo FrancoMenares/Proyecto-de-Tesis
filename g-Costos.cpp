@@ -26,6 +26,7 @@ float Costos::get_cantN(void)   { return this->cantN   ;}
 float Costos::get_valorCA(void) { return this->valorCA ;} 
 float Costos::get_distCA(void)  { return this->distCA  ;} 
 
+
 //------------- costos nodo -------------
 float Costos::costo_combustible_nodo(float tiemp){
   return this->rend * tiemp * this->valorC                                           ;
@@ -38,6 +39,7 @@ float Costos::costo_conductor_nodo(float tiemp){
 float Costos::costo_total_nodo(float tiemp){
   return this->costo_combustible_nodo(tiemp) + this->costo_conductor_nodo(tiemp)     ;
 }
+
 
 //------------- costos arco -------------
 float Costos::costo_combustible_arco(float vel, float dist){
@@ -64,6 +66,7 @@ float Costos::costo_cambio_aceite(float dist){
 float Costos::costo_total_arco(float vel, float dist, float tiemp){
   return this->costo_combustible_arco(vel, dist) + this->costo_conductor_arco(tiemp) + this->costo_desgaste_neumatico(dist) + this->costo_cambio_aceite(dist) ;
 }
+
 
 //------------- impresiones -------------
 void Costos::imprimir_detalle_costos(void){

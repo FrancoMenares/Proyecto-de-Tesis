@@ -39,6 +39,7 @@ void TDDijkstra::ruta_mas_corta(Red* red, int nodo_inicio){
   }
 }
 
+
 //--------------- TD_Dijkstra (costo operativo) ---------------
 void TDDijkstra::td_ruta_mas_corta(Red* red, Costos* costos, int nodo_inicio, float hora_inicio){
   struct comparar_costo {                                    //se crea estructura para ordenar la cola de prioridad
@@ -127,6 +128,7 @@ void TDDijkstra::td_ruta_mas_corta(Red* red, Costos* costos, int nodo_inicio, fl
     }
   }
 }
+
 
 //--------------- imprimir_ruta ---------------
 void TDDijkstra::imprimir_ruta(Red* red, int id_inicio, int id_destino, int ruta){

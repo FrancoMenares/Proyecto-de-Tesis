@@ -1,4 +1,5 @@
 
 language = "cpp"
-run = "make; make salto; make exe"
-#run = "make; make salto; make exe>Resultados/Resultados.txt"
+#run = "clear; make; clear; make exe"
+run = "clear; make; clear; make exe1"
+#run = "clear; make ins"

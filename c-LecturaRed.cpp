@@ -13,17 +13,21 @@ Red *LecturaRed::lectura_red(){
 
 	string linea                                  ; //Se crea una línea de tipo string 
   
+  
   //-------------- cant nodos --------------
   getline(this->fs,linea)                       ; //Se obtiene la primera linea 
   grafo->set_cant_nodos(atoi(linea.c_str()))    ; //Se setea la cantidad de nodos
+  
   
   //-------------- cant arcos --------------
   getline(this->fs,linea)                       ; //Se obtiene la nueva linea 
   grafo->set_cant_arcos(atoi(linea.c_str()))    ; //Se setea la cantidad de arcos
 
+
   //-------------- cant periodos --------------
   getline(this->fs,linea)                       ; //Se obtiene la nueva linea 
   grafo->set_cant_periodos(atoi(linea.c_str())) ; //Se setea la cantidad de periodos
+
 
   //-------------- nodos --------------
   for (int i=0; i<grafo->get_cant_nodos(); i++){  //Se crea un objeto nodo para cada nodo de la red
@@ -34,6 +38,7 @@ Red *LecturaRed::lectura_red(){
     temp->set_padre(0)                          ; //setea el padre
     grafo->agregar_nodo(temp)                   ; //Se agrega a la lista de nodos de la red
   }
+
 
   //-------------- Matriz de adyacencia --------------
   grafo->agregar_fils(grafo->get_cant_nodos())            ; //Se hace espacio para los nodos en la matriz de adyacencia
@@ -67,6 +72,7 @@ Red *LecturaRed::lectura_red(){
     }
   }
   
+  
   //-------------- Tasas Fallo --------------
   grafo->set_tam_tasas_fallo(grafo->get_cant_nodos(), grafo->get_cant_periodos()) ; //Se crea matriz para guarda tasas de fallo
   for (int i=0; i<grafo->get_cant_nodos(); i++){                                    //Se recorre cada nodo
@@ -75,6 +81,7 @@ Red *LecturaRed::lectura_red(){
       grafo->set_tasa_fallo(i, j, atof(cadena.c_str()))                           ; //Se agrega la tasa a la matriz
     }
   }
+
 
   //-------------- limites periodos --------------
   grafo->set_tam_periodos(grafo->get_cant_periodos()) ; //Se crea matriz para guardar los limites de cada periodo
@@ -88,6 +95,7 @@ Red *LecturaRed::lectura_red(){
     grafo->set_periodo(i, 2, atof(cadena.c_str()))    ; //se seta el limite superior
   }
   
+  
   //-------------- Tiempos atencion nodos --------------
   grafo->set_tam_tiempos_aten(grafo->get_cant_nodos(), grafo->get_cant_periodos()) ; //Se crea matriz para guardar tiempos de atencion
   for (int i=0; i<grafo->get_cant_nodos(); i++){                                     //Se recorre cada nodo
@@ -96,6 +104,7 @@ Red *LecturaRed::lectura_red(){
       grafo->set_tiempo_aten(i, j, atof(cadena.c_str()))                           ; //Se agrega el tiempo a la matriz
     }
   }
+
 
   //-------------- retorno de la la lectura --------------
   return grafo                                        ;
