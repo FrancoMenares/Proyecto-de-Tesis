@@ -318,6 +318,52 @@ void Poblacion::agregar_nuevos_padres(Frentes* F, int lambda){
 }
 
 
+//--------------- clasificacion no dominada de las soluciones ---------------
+void Poblacion::clasificar_frente_final(Frentes* F, int lambda){
+  int dominancia ;
+  int j          ;
+
+  F->crear_frente()                        ; //se crea el primer frente
+  for (Individuo* p: this->poblacion){       //se recorre los individuos de la poblacion
+    j = 0                                  ; //contador de individos                
+    while (j<this->poblacion.size()){        //se recooren los individuos de la poblacion
+      Individuo* q = this->poblacion.at(j) ; //individuo en la posicion j
+
+      if (p != q){                                                       //si son distintos
+        if (p->get_f1() == q->get_f1() && p->get_f2() == q->get_f2()){   //si hay individuos con iguales fo
+          delete q                                                     ; //se destruye el individuo repetido
+          this->poblacion.erase(this->poblacion.begin() + j)           ; //se elimina de la poblacion
+          continue                                                     ; //se compara el siguiente individuo
+        }
+
+        dominancia = this->dominancia(p, q)            ; //se evalua dominancia entre p y q
+        if (dominancia == 1){                            //si p domina a q
+          p->agregar_individuo_dominado(q)             ; //se agrega q a la lista de dominados de p
+        } else if (dominancia == -1){                    //si q domina a p
+          p->set_dominado_por(p->get_dominado_por()+1) ; //se suma 1 a la cantidad de individuos que dominan a p
+        }
+      }
+      j++                                              ; //se pasa al siguiente individuo
+    }
+
+    if (p->get_dominado_por() == 0){   //si p no esta dominado por ninguna solucion
+      F->agregar_individuo(0, p)     ; //se agrega p a primer frente
+      p->set_ranking(0)              ; //se setea el ranking del individuo
+    }
+  }
+  
+  this->limpiar_poblacion() ; //se eliminan los individuos de peor calidad
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

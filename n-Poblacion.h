@@ -67,4 +67,13 @@ class Poblacion{
 
     //--------------- pasar nuevos padres del frente a la poblacion ---------------
     void agregar_nuevos_padres(Frentes* F, int lambda)                                ;
+
+
+
+
+
+    
+    
+    //--------------- clasificacion no dominada de las soluciones ---------------
+    void clasificar_frente_final(Frentes* F, int lambda)                               ;
 };

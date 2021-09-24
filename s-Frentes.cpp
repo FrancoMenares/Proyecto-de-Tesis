@@ -44,9 +44,9 @@ void Frentes::imprimir_frente_1(int pos){
 void Frentes::imprimir_frente_2(int pos){
   for (Individuo* i: this->frentes.at(pos)){
     if (i->get_hacinamiento() != 0){
-      //cout << i->get_f1() << "\t" << i->get_f2() << endl ;
-      i->imprimir_individuo() ;
-      getchar() ;
+      cout << i->get_f1() << "\t" << i->get_f2() << endl ;
+      //i->imprimir_individuo() ;
+      //getchar() ;
     }
   }
 }
@@ -134,3 +134,23 @@ void Frentes::ordenar_frente(int frente){
     return i2->get_ranking() < i1->get_ranking()                                                              ; //
   });
 }
+
+
+void Frentes::escribir_frente_final(string nombre_archivo){
+  ofstream archivo                                         ; //
+  archivo.open(nombre_archivo)                             ; // 
+  for (vector <Individuo*> i: this->frentes){                // 
+    for (Individuo* j: i){                                   // 
+      archivo << j->get_f1() << " " << j->get_f2() << endl ; //
+    }
+  }
+  archivo.close()                                          ; //
+}
+
+
+
+
+
+
+
+
