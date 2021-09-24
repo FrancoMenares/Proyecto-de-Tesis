@@ -13,8 +13,8 @@
 #include "s-Frentes.h"
 
 #include "z-EscrituraInstancia.h"
-#include "z-EscrituraFrente.h"
 #include "z-Trazado.h"
+
 
 using namespace std;
 
@@ -96,7 +96,7 @@ int main(int argc, char **argv){
   //mientras corren las generaciones t
   while (generacion < generaciones){
 
-    if (generacion%500 == 0) { cout << generacion << endl ;}
+    if (generacion%1000 == 0) { cout << generacion << endl ;}
     
     //combinar poblacion de padres e hijos R_t = P_t + Q_t
     R->combinar_poblacion(P, Q)                                            ;
@@ -117,20 +117,20 @@ int main(int argc, char **argv){
   //combinar poblacion de padres e hijos R_t = P_t + Q_t
   R->combinar_poblacion(P, Q)                                              ;
 
-  //clasificar individuos en los frentes F_i
-  R->clasificar_poblacion(F, lambda)                                       ;
+  //clasificar individuos del frente F_0
+  R->clasificar_frente_final(F, lambda)                                    ;
+
+  //se finaliza el tiempo de ejecucion
+  float tiempo_ej = float (difftime(clock(), tiempo)/CLOCKS_PER_SEC)                             ;
+
+  cout << "=================================================================" << endl            ;
+  cout << "Tiempo NSGA-II: " << tiempo_ej                                     << " seg." << endl ;
+  cout << "=================================================================" << endl    << endl ;
+
 
   //F->imprimir_frentes_1()                                                  ;
   F->imprimir_frentes_2()                                                  ;
-
-  //calcular distancia de hacinamiento obteniendo la proxima generacion de padres P_t+1
-  //P->agregar_nuevos_padres(F, lambda)                                      ;
-
-  //se finaliza el tiempo de ejecucion
-  cout << "================================================================="    << endl            ;
-  cout << "Tiempo NSGA-II: " << float (difftime(clock(), tiempo)/CLOCKS_PER_SEC) << " seg." << endl ;
-  cout << "================================================================="    << endl    << endl ;
-
+  F->escribir_frente_final("1-Solucion.txt")                               ;
 }
 
 

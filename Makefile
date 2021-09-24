@@ -1,5 +1,5 @@
 #Aquí se agregan los objetos para compilar
-OBJS = main.o a-Nodo.o b-Red.o c-LecturaRed.o d-Cliente.o e-Instancia.o f-LecturaInstancia.o g-Costos.o h-TDDijkstra.o i-Preprocesamiento.o j-Segmento.o k-Ruta.o l-Individuo.o m-Construccion.o n-Poblacion.o ñ-AjusteHora.o o-CambioCliente.o p-InvertirClientes.o q-OX.o s-Frentes.o z-EscrituraFrente.o z-EscrituraInstancia.o z-Trazado.o
+OBJS = main.o a-Nodo.o b-Red.o c-LecturaRed.o d-Cliente.o e-Instancia.o f-LecturaInstancia.o g-Costos.o h-TDDijkstra.o i-Preprocesamiento.o j-Segmento.o k-Ruta.o l-Individuo.o m-Construccion.o n-Poblacion.o ñ-AjusteHora.o o-CambioCliente.o p-InvertirClientes.o q-OX.o s-Frentes.o z-EscrituraInstancia.o z-Trazado.o
 
 #Para poner opciones de la versión de C++ a ocupar 
 FLAGS = -O3
@@ -29,10 +29,7 @@ Proyecto-de-Tesis: $(OBJS)
 #cantidad de generaciones
 
 exe:
-	./Proyecto-de-Tesis Red-Carreteras/Red-Carreteras-3.txt Instancias/b-Instancia20.txt 60.0 123 5 80 100 90 1000
-
-exe1:
-	./Proyecto-de-Tesis Red-Carreteras/Red-Carreteras-3.txt Instancias2/e-Instancia50.txt 60.0 123 5 80 100 90 1000
+	./Proyecto-de-Tesis Red-Carreteras/Red-Carreteras-3.txt Instancias/a-Instancia7.txt 60.0 123 5 80 100 90 1000
 
 ins:
 	python3 y-GenerarInstancias.py

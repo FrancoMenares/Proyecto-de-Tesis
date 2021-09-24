@@ -1,5 +1,4 @@
 
 language = "cpp"
-#run = "clear; make; clear; make exe"
-run = "clear; make; clear; make exe1"
+run = "clear; make; clear; make exe"
 #run = "clear; make ins"

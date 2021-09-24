@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <limits>
+#include <fstream>
 
 #include "l-Individuo.h"
 
@@ -43,4 +44,7 @@ class Frentes{
 
     //--------------- ordenar individuos de un frente ---------------
     void ordenar_frente(int frente)                       ;
+
+
+    void escribir_frente_final(string nombre_archivo) ;
 };
