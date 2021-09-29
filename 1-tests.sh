@@ -1,9 +1,9 @@
-
+#!/bin/bash
 
 Red="Red-Carreteras/Red-Carreteras-3.txt"
 dir1="Instancias/InstanciasChicas"
 dir2="Instancias/InstanciasGrandes"
-Instancias_chicas="a-Instancia1.txt"
+Instancias_chicas="a-Instancia1.txt b-Instancia17.txt"
 #Instancias_chicas=$(ls ${dir1})
 Instancias_grandes=$(ls ${dir2})
 
@@ -11,11 +11,11 @@ Instancias_grandes=$(ls ${dir2})
 Semillas="624 472 685"
 
 Frec_salidas="60.0"
-Lambda="50 75 100 150"
+Lambda="50"
 P_aceptacion="80"
 P_cruce="90"
 P_mutacion="90"
-Generaciones="10000 50000 100000"
+Generaciones="10000"
 
 dir3="Resultados"
 FrentesM="FrentesModelo"
@@ -79,7 +79,7 @@ for instancia in ${Instancias_chicas}; do
     Hypervolume/./hv -r "${PuntoRef}" ${dir3}/${FrentesA}/${instancia:0:-4}/${Archivo} >> ${dir3}/${Hiper}/${instancia}
   done
 
-  #python3 y-GraficarFrentes.py ${instancia}
+  python3 y-GraficarFrentes.py ${instancia}
 done
 
 

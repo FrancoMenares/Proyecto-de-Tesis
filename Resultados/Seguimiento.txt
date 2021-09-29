@@ -1,1 +1,8 @@
-./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/a-Instancia1.txt 60.0 624 50 80 90 90 10000
+./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/a-Instancia1.txt 60.0 624 50 80 90 90 10000 0.176359 4.962
+./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/a-Instancia1.txt 60.0 472 50 80 90 90 10000 0.212858 5.31249
+./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/a-Instancia1.txt 60.0 685 50 80 90 90 10000 0.201083 5.2055
+ 
+./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/b-Instancia17.txt 60.0 624 50 80 90 90 10000 0.415087 6.27578
+./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/b-Instancia17.txt 60.0 472 50 80 90 90 10000 0.323835 6.3784
+./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/b-Instancia17.txt 60.0 685 50 80 90 90 10000 0.347928 6.21018
+ 
