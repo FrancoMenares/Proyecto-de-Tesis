@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <cmath>
 
 #include "e-Instancia.h"
 #include "l-Individuo.h"
@@ -64,16 +65,9 @@ class Poblacion{
 
     //--------------- clasificacion no dominada de las soluciones ---------------
     void clasificar_poblacion(Frentes* F, int lambda)                                 ;
+    void obtener_frente_pareto(Frentes* F)                                            ;
 
     //--------------- pasar nuevos padres del frente a la poblacion ---------------
     void agregar_nuevos_padres(Frentes* F, int lambda)                                ;
 
-
-
-
-
-    
-    
-    //--------------- clasificacion no dominada de las soluciones ---------------
-    void clasificar_frente_final(Frentes* F, int lambda)                               ;
 };

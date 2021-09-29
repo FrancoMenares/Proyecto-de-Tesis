@@ -22,6 +22,7 @@ class Frentes{
 
 
     void crear_frente(void)                               ;
+    void agregar_frente(vector <Individuo*> frente)       ;
 
     void agregar_individuo(int pos, Individuo* individuo) ;
     void eliminar_individuo(int pos1, int pos2)           ;
@@ -45,6 +46,7 @@ class Frentes{
     //--------------- ordenar individuos de un frente ---------------
     void ordenar_frente(int frente)                       ;
 
+    void clasificar_frente_final(void)                    ;
 
-    void escribir_frente_final(string nombre_archivo) ;
+    void escribir_frente_final(string nombre_archivo)     ;
 };

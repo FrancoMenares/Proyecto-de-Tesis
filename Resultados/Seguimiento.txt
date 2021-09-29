@@ -1,0 +1,1 @@
+./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/a-Instancia1.txt 60.0 624 50 80 90 90 10000

@@ -2,6 +2,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -10,6 +11,7 @@ using namespace std;
 #include "g-Costos.h"
 #include "h-TDDijkstra.h"
 #include "l-Individuo.h"
+#include "s-Frentes.h"
 
 
 class Trazado{
@@ -18,9 +20,9 @@ class Trazado{
   public:
     Trazado(){}       ; //Constructor
     ~Trazado(){}      ; //Destructor
-    
-    //--------------- impresiones ---------------
-    void imprimir_ruta(Individuo* individuo, Red* red, Instancia* instancia) ;
+
+    //--------------- ruta mas corta dependiente del tiempo ---------------
+    void escibir_rutas_completas(string ruta, Frentes* F, Red* red, Instancia* instancia) ;
 };
 
 

@@ -4,6 +4,8 @@
 
 
 void Frentes::crear_frente(void)                               {this->frentes.push_back({})                 ;}
+void Frentes::agregar_frente(vector <Individuo*> frente)       {this->frentes.push_back(frente)             ;}
+
 void Frentes::agregar_individuo(int pos, Individuo* individuo) { this->frentes.at(pos).push_back(individuo) ;}
 
 void Frentes::eliminar_individuo(int pos1, int pos2){
@@ -136,20 +138,107 @@ void Frentes::ordenar_frente(int frente){
 }
 
 
-void Frentes::escribir_frente_final(string nombre_archivo){
-  ofstream archivo                                         ; //
-  archivo.open(nombre_archivo)                             ; // 
-  for (vector <Individuo*> i: this->frentes){                // 
-    for (Individuo* j: i){                                   // 
-      archivo << j->get_f1() << " " << j->get_f2() << endl ; //
+void Frentes::clasificar_frente_final(void){
+
+  for (Individuo* i: this->frentes.at(0)){
+    i->set_f1(int(i->get_f1()*100)) ;
+    i->set_f2(int(i->get_f2()*100)) ;
+  }
+
+  for (int i=0; i<this->frentes.at(0).size(); i++){
+    Individuo* p = this->frentes.at(0).at(i) ;
+
+    if (p->get_ranking() == 0){
+      for (int j=i+1; j<this->frentes.at(0).size(); j++){
+        Individuo* q = this->frentes.at(0).at(j) ;
+
+        if ((p->get_f1() == q->get_f1()) && (p->get_f2() == q->get_f2())){
+          q->set_ranking(1) ;
+          continue          ;
+        }
+
+        if ((p->get_f1() == q->get_f1()) && (p->get_f2() < q->get_f2())){
+          q->set_ranking(1) ;
+          continue          ;
+        } else if ((p->get_f1() == q->get_f1()) && (p->get_f2() > q->get_f2())){
+          p->set_ranking(1) ;
+          break             ;
+        }
+
+        if ((p->get_f1() < q->get_f1()) && (p->get_f2() == q->get_f2())){
+          q->set_ranking(1) ;
+          continue          ;
+        } else if ((p->get_f1() > q->get_f1()) && (p->get_f2() == q->get_f2())){
+          p->set_ranking(1) ;
+          break             ;
+        }
+      }
     }
   }
-  archivo.close()                                          ; //
+  
+  int j = 0 ;
+  while (j < this->frentes.at(0).size()){
+    Individuo* i = this->frentes.at(0).at(j) ;
+
+    i->set_f1(float(i->get_f1()/100)) ;
+    i->set_f2(float(i->get_f2()/100)) ;
+
+    if (i->get_ranking() == 0){
+      j++ ;
+    }
+    
+    if (i->get_ranking() != 0){
+      this->frentes.at(0).erase(this->frentes.at(0).begin() + j) ;
+      delete i ;
+    }
+  }
 }
 
 
+void Frentes::escribir_frente_final(string ruta){
+  ofstream archivo1                                                                         ;
+  archivo1.open(ruta + "Individuos.txt")                                                    ; 
+  for (Individuo* i: this->frentes.at(0)){
+    archivo1 << "=================================================================" << endl ;
 
+    archivo1 << "F1 : " << i->get_f1()                                              << endl ;
+    archivo1 << "F2 : " << i->get_f2()                                              << endl ;
 
+    for (Ruta* r: i->get_rutas()){
+      archivo1 << endl                                                                      ;
+      archivo1 << "Id            :\t" << r->get_id()                 << endl                ;
+      archivo1 << "Aporte f1     :\t" << r->get_aporte_f1()          << endl                ;
+      archivo1 << "Aporte f2     :\t" << r->get_aporte_f2()          << endl                ;
+      archivo1 << "T. Inicio     :\t" << r->get_tiempo_inicio()      << endl                ;
+      archivo1 << "T. Termino    :\t" << r->get_tiempo_termino()     << endl                ;
+      archivo1 << "T. Restante   :\t" << r->get_tiempo_restante()    << endl                ;
+      archivo1 << "Cap. Restante :\t" << r->get_capacidad_restante() << endl                ;
+      archivo1 << "Ruta          :\t"                                                       ;    
+
+      for (int j=0; j<r->get_segmentos().size(); j++){
+        if (j == r->get_segmentos().size()-1){
+          archivo1 << r->get_segmento(j)->get_cliente_i()->get_id_nodo()+1 << " - "         ;
+          archivo1 << r->get_segmento(j)->get_cliente_j()->get_id_nodo()+1 << endl          ;
+          break                                                                             ; 
+        } else {
+          archivo1 << r->get_segmento(j)->get_cliente_i()->get_id_nodo()+1 << " - "         ;
+        } 
+      }
+    }
+
+    archivo1 << "-----------------------------------------------------------------" << endl ;
+    archivo1 << endl                                                                        ;
+  }
+  archivo1.close()                                                                          ;
+
+  
+  ofstream archivo2                                       ; 
+  archivo2.open(ruta + "Frente.txt")                      ; 
+  for (Individuo* i: this->frentes.at(0)){
+    archivo2 << i->get_f1() << " " << i->get_f2() << endl ; 
+  }
+  archivo2.close()                                        ; 
+}
 
 
 
