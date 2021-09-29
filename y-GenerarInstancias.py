@@ -130,10 +130,3 @@ for h in range(len(cant_clientes)):
 g.close()
 
 
-
-
-
-
-
-
-

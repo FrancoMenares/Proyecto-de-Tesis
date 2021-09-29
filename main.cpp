@@ -1,4 +1,4 @@
-
+//
 #include <iostream>
 #include <random>
 #include <vector>
@@ -26,27 +26,29 @@ int main(int argc, char **argv){
   string archivo_ins = argv[2]          ; //nombre archivo instancia
   float frec_salidas = atof(argv[3])/60 ; //frecuencia para preprocesamiento de la red
   int semilla = atoi(argv[4])           ; //semilla de ejecucion
-  int lambda = atoi(argv[5])             ; //tamaño de la poblacion
+  int lambda = atoi(argv[5])            ; //tamaño de la poblacion
   int p_aceptacion = atoi(argv[6])      ; //pobabilidad de aceptacion de padre
   int p_cruce = atoi(argv[7])           ; //probabilidad de cruce
   int p_mutacion = atoi(argv[8])        ; //probabilidad de mutacion
   int generaciones = atoi(argv[9])      ; //cantidad de generaciones
+
+  bool debug = false ;
   
 
   //control aleatoriedad
-  //srand(semilla)              ; //se fija una semilla 
+  srand(semilla) ; //se fija una semilla 
 
 
   //Lectura Red de carreteras
-  LecturaRed lr(archivo_red)  ; //se crea un objeto de tipo LecturaRed
-  Red* red = lr.lectura_red() ; //se lee la red de carreteras
-  red->imprimir_red()         ;
+  LecturaRed lr(archivo_red)      ; //se crea un objeto de tipo LecturaRed
+  Red* red = lr.lectura_red()     ; //se lee la red de carreteras
+  if (debug){ red->imprimir_red() ;}
   
 
   //Lectura Instancia
   LecturaInstancia li(archivo_ins)              ; //se crea un objeto de tipo LecturaInstancia
   Instancia* instancia = li.lectura_instancia() ; //se lee la red de carreteras
-  instancia->imprimir_instancia()               ;
+  if (debug){ instancia->imprimir_instancia()   ;}
 
 
   //Preprocesamiento de la red
@@ -60,20 +62,24 @@ int main(int argc, char **argv){
 
 
   //Escribir .dat para el modelo
-  EscrituraInstancia escribir_i(archivo_ins) ;
-  escribir_i.escribir_instancia(instancia)   ;
+  //EscrituraInstancia escribir_i(archivo_ins) ;
+  //escribir_i.escribir_instancia(instancia)   ;
 
 
   //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
   //:::::::::::::::::::::::::::::::::::::::::::::  NSGA-II :::::::::::::::::::::::::::::::::::::::::::::
   //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-  lambda       = 50    ;
-  p_aceptacion = 80    ;
-  p_cruce      = 90    ;
-  p_mutacion   = 90    ;
-  generaciones = 10000 ;
+  if (debug){
+    cout << "-----------------------------------------------------------------" << endl ;
+    cout << "Semilla          : " << semilla      << endl ;
+    cout << "Tamano Poblacion : " << lambda       << endl ;
+    cout << "Prob. Aceptacion : " << p_aceptacion << endl ;
+    cout << "Prob. Cruce      : " << p_cruce      << endl ;
+    cout << "Prob. Mutacion   : " << p_mutacion   << endl ;
+    cout << "N° Generaciones  : " << generaciones << endl ;
+    cout << "-----------------------------------------------------------------" << endl << endl ;
+  }
 
-  srand(111)         ;
 
   Poblacion* P = new Poblacion(instancia) ; //
   Poblacion* Q = new Poblacion(instancia) ; //
@@ -95,8 +101,7 @@ int main(int argc, char **argv){
 
   //mientras corren las generaciones t
   while (generacion < generaciones){
-
-    if (generacion%1000 == 0) { cout << generacion << endl ;}
+    //if (generacion%1000 == 0) { cout << generacion << endl ;}
     
     //combinar poblacion de padres e hijos R_t = P_t + Q_t
     R->combinar_poblacion(P, Q)                                            ;
@@ -118,19 +123,23 @@ int main(int argc, char **argv){
   R->combinar_poblacion(P, Q)                                              ;
 
   //clasificar individuos del frente F_0
-  R->clasificar_frente_final(F, lambda)                                    ;
+  R->obtener_frente_pareto(F)                                              ;
+  //R->clasificar_poblacion(F, lambda)                                       ;
+  //F->clasificar_frente_final()                                             ;
 
   //se finaliza el tiempo de ejecucion
-  float tiempo_ej = float (difftime(clock(), tiempo)/CLOCKS_PER_SEC)                             ;
+  cout << " " << float (difftime(clock(), tiempo)/CLOCKS_PER_SEC) << endl  ;
 
-  cout << "=================================================================" << endl            ;
-  cout << "Tiempo NSGA-II: " << tiempo_ej                                     << " seg." << endl ;
-  cout << "=================================================================" << endl    << endl ;
+  //float tiempo_ej = float (difftime(clock(), tiempo)/CLOCKS_PER_SEC)                             ;
+  //cout << "=================================================================" << endl            ;
+  //cout << "Tiempo NSGA-II: " << tiempo_ej                                     << " seg." << endl ;
+  //cout << "=================================================================" << endl    << endl ;
 
 
-  //F->imprimir_frentes_1()                                                  ;
-  F->imprimir_frentes_2()                                                  ;
-  F->escribir_frente_final("1-Solucion.txt")                               ;
+  F->escribir_frente_final("Resultados/")                                  ;
+
+  Trazado* T = new Trazado()                                               ;
+  T->escibir_rutas_completas("Resultados/", F, red, instancia)             ;
 }
 
 
@@ -142,112 +151,4 @@ int main(int argc, char **argv){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-  for (Individuo* s: P->get_poblacion()){
-    cout << s->get_f1() << "\t" << s->get_f2() << "\t" << s->get_ranking() << "/" << s->get_hacinamiento() << endl ;
-  }
-*/
-
-/*
-    if (debug){
-      cout << endl << "1 ::::"                            ; 
-      cout << "\t P: " << P->get_poblacion().size()       ;
-      cout << "\t Q: " << Q->get_poblacion().size()       ;
-      cout << "\t R: " << R->get_poblacion().size()       ;
-      cout << "\t F: " << F->get_frentes().size() << endl ;
-
-      cout << endl ;
-      cout << "PADRES" << endl ;
-      for (Individuo* i: P->get_poblacion()){
-        cout << i->get_f1() << "\t" << i->get_f2() << " \t" << i->get_dominado_por() << "/" << i->get_individuos_dominados().size() << "\t" << i->get_ranking() << "/" << i->get_hacinamiento() << endl ;
-      }
-      cout << endl ;
-
-      cout << "HIJOS" << endl ;
-      for (Individuo* i: Q->get_poblacion()){
-        cout << i->get_f1() << "\t" << i->get_f2() << " \t" << i->get_dominado_por() << "/" << i->get_individuos_dominados().size() << "\t" << i->get_ranking() << "/" << i->get_hacinamiento() << endl ;
-      }
-      cout << endl ;
-    }
-
-    if (debug){
-      cout << "2 ::::"                            ; 
-      cout << "\t P: " << P->get_poblacion().size()       ;
-      cout << "\t Q: " << Q->get_poblacion().size()       ;
-      cout << "\t R: " << R->get_poblacion().size()       ;
-      cout << "\t F: " << F->get_frentes().size() << endl ;
-
-      cout << endl ;
-      cout << "UNION" << endl ;
-      for (Individuo* i: R->get_poblacion()){
-        cout << i->get_f1() << "\t" << i->get_f2() << " \t" << i->get_dominado_por() << "/" << i->get_individuos_dominados().size() << "\t" << i->get_ranking() << "/" << i->get_hacinamiento() << endl ;
-      }
-      cout << endl ;
-    }
-
-    if (debug){
-      cout << "3 ::::"                            ; 
-      cout << "\t P: " << P->get_poblacion().size()       ;
-      cout << "\t Q: " << Q->get_poblacion().size()       ;
-      cout << "\t R: " << R->get_poblacion().size()       ;
-      cout << "\t F: " << F->get_frentes().size() << endl ;
-
-      ///*
-      cout << endl ;
-      cout << "FRENTE" << endl ;
-      for (vector <Individuo*> i: F->get_frentes()){
-        for (Individuo* j: i){
-          cout << j->get_f1() << "\t" << j->get_f2() << "\t" << j->get_dominado_por() << "/" << j->get_individuos_dominados().size() << "\t" << j->get_ranking() << "/" << j->get_hacinamiento() << endl ;
-        }
-      }
-      cout << endl ;
-    }
-
-    if (debug){
-      cout << "4 ::::"                            ; 
-      cout << "\t P: " << P->get_poblacion().size()       ;
-      cout << "\t Q: " << Q->get_poblacion().size()       ;
-      cout << "\t R: " << R->get_poblacion().size()       ;
-      cout << "\t F: " << F->get_frentes().size() << endl ;
-
-      cout << endl ;
-      cout << "NUEVOS PADRES" << endl ;
-      for (Individuo* i: P->get_poblacion()){
-        cout << i->get_f1() << "\t" << i->get_f2() << " \t" << i->get_dominado_por() << "/" << i->get_individuos_dominados().size() << "\t" << i->get_ranking() << "/" << i->get_hacinamiento() << endl ;
-      }
-      cout << endl ;
-    }
-
-    if (debug){
-      cout << "5 ::::"                            ; 
-      cout << "\t P: " << P->get_poblacion().size()       ;
-      cout << "\t Q: " << Q->get_poblacion().size()       ;
-      cout << "\t R: " << R->get_poblacion().size()       ;
-      cout << "\t F: " << F->get_frentes().size() << endl ;
-
-      cout << endl ;
-      cout << "NUEVOS HIJOS" << endl ;
-      for (Individuo* i: Q->get_poblacion()){
-        cout << i->get_f1() << "\t" << i->get_f2() << " \t" << i->get_dominado_por() << "/" << i->get_individuos_dominados().size() << "\t" << i->get_ranking() << "/" << i->get_hacinamiento() << endl ;
-      }
-      cout << endl ;
-    }
-*/
 

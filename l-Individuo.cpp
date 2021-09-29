@@ -137,4 +137,3 @@ void Individuo::imprimir_individuo_2(Instancia* instancia){
 
 
 
-

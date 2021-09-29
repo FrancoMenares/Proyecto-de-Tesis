@@ -5,11 +5,11 @@ OBJS = main.o a-Nodo.o b-Red.o c-LecturaRed.o d-Cliente.o e-Instancia.o f-Lectur
 FLAGS = -O3
 
 #Que genere el archivo llamado así
-all: Proyecto-de-Tesis
+all: ProyectoTesis
 
 #Que se va a hacer cada vez que se llame al archivo
-Proyecto-de-Tesis: $(OBJS)
-	g++ -o Proyecto-de-Tesis $(OBJS) $(FLAGS)
+ProyectoTesis: $(OBJS)
+	g++ -o ProyectoTesis $(OBJS) $(FLAGS)
   
 #Para generar cualquier punto .o necesito cualquier punto .cpp
 %.o: %.cpp %.h
@@ -29,10 +29,16 @@ Proyecto-de-Tesis: $(OBJS)
 #cantidad de generaciones
 
 exe:
-	./Proyecto-de-Tesis Red-Carreteras/Red-Carreteras-3.txt Instancias/a-Instancia7.txt 60.0 123 5 80 100 90 1000
+	./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/b-Instancia12.txt 60.0 624 50 80 90 90 100000
 
-ins:
+exe1:
+	./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/a-Instancia1.txt 60.0 472 50 80 90 90 10000
+
+ins1:
 	python3 y-GenerarInstancias.py
 
+ins2:
+	python3 y-ExtraerFrente.py a-Instancia1.txt 624 50 80 90 90 10000 Resultados/Frente.txt
+
 clean: 
-	rm -rf *.o Proyecto-de-Tesis
+	rm -rf *.o ProyectoTesis

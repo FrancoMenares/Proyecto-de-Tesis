@@ -78,7 +78,7 @@ void Instancia::verificar_instancia(void){
 void Instancia::imprimir_instancia(void){
   cout << "-----------------------------------------------------------------"       << endl ;
   cout << "Deposito         : \t" << clientes.at(cant_clientes)->get_id_nodo()+1    << endl ;
-  cout << "N° clientes      : \t" << this->cant_clientes                            << endl ;
+  cout << "N° Clientes      : \t" << this->cant_clientes                            << endl ;
   cout << "Clientes         : \t"                                                           ;
   for (int i=0; i<this->cant_clientes; i++){
     if ((i+1)%11 == 0 && (i+1) != this->cant_clientes){
