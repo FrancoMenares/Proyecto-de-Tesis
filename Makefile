@@ -30,15 +30,9 @@ ProyectoTesis: $(OBJS)
 
 exe:
 	./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/b-Instancia12.txt 60.0 624 50 80 90 90 100000
-
-exe1:
-	./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/a-Instancia1.txt 60.0 472 50 80 90 90 10000
-
-ins1:
-	python3 y-GenerarInstancias.py
-
-ins2:
-	python3 y-ExtraerFrente.py a-Instancia1.txt 624 50 80 90 90 10000 Resultados/Frente.txt
+  
+graf:
+	python3 y-GraficarFrentes.py b-Instancia17.txt
 
 clean: 
 	rm -rf *.o ProyectoTesis
