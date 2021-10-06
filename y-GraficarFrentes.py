@@ -138,7 +138,7 @@ f1 = [(i - f1_min)/(f1_max - f1_min) for i in f1]
 f2 = [(i - f2_min)/(f2_max - f2_min) for i in f2]
 f1.sort()
 f2.sort(reverse=True)
-plt.plot(f1, f2,'o',linewidth=2, color="darkorange", label="NSGA-II (-), hv=" + str(hv_min))
+plt.plot(f1, f2,'o',linewidth=2, markersize=8, color="darkorange", label="NSGA-II (-), hv=" + str(hv_min))
 
 
 
