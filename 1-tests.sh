@@ -4,14 +4,16 @@ Red="Red-Carreteras/Red-Carreteras-3.txt"
 dir1="Instancias/InstanciasChicas"
 dir2="Instancias/InstanciasGrandes"
 
-Instancias_chicas="a-Instancia1.txt a-Instancia7.txt b-Instancia14.txt b-Instancia17.txt"
-Instancias_grandes="c-Instancia30.txt c-Instancia35.txt d-Instancia40.txt d-Instancia45.txt e-Instancia50.txt"
+Instancias_chicas="a-Instancia1.txt"
+
+#Instancias_chicas="a-Instancia1.txt a-Instancia7.txt b-Instancia14.txt b-Instancia17.txt"
+#Instancias_grandes="c-Instancia30.txt c-Instancia35.txt d-Instancia40.txt d-Instancia45.txt e-Instancia50.txt"
 
 #Instancias_chicas=$(ls ${dir1})
 #Instancias_grandes=$(ls ${dir2})
 
 #Semillas="624 472 685 103 328 467 432 191 779 510"
-Semillas="624 472 685"
+Semillas="624" #472 685"
 
 Frec_salidas_chicas="60.0"
 Frec_salidas_grandes="15.0"
@@ -20,7 +22,8 @@ Lambda="50"
 P_aceptacion="80"
 P_cruce="90"
 P_mutacion="90"
-Generaciones="500 1000 5000 10000 50000"
+#Generaciones="500 1000 5000 10000 50000"
+Generaciones="500 1000 5000"
 
 dir3="Resultados"
 FrentesM="FrentesModelo"
@@ -41,7 +44,7 @@ Seguimiento="Seguimiento.txt"
 
 clear
 rm -r rm ${dir3}/${FrentesA}/* ${dir3}/${FrentesG}/* ${dir3}/${Hiper}/* ${dir3}/${RutasA}/* ${dir3}/${SolucionesA}/* 
-rm ${dir3}/${Frente} ${dir3}/${Individuos} ${dir3}/${Punto} ${dir3}/${Rutas} ${dir3}/${Seguimiento}
+rm ${dir3}/${Frente} ${dir3}/${Individuos} ${dir3}/${Punto} ${dir3}/${Rutas} ${dir3}/${Seguimiento} nohup.out
 
 
 
