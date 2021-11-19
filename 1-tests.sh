@@ -61,7 +61,7 @@ for instancia in ${Instancias_chicas}; do
                 #./ProyectoTesis ${Red} ${dir1}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones} >> ${dir3}/${Seguimiento}
                 ./ProyectoTesis ${Red} ${dir1}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones} >> ${dir3}/${TiemposA}/${instancia}
 
-                #cat ${dir3}/${Frente} > ${dir3}/${FrentesA}/${instancia:0:-4}/${instancia:0:-4}-${semilla}-${lambda}-${p_aceptacion}-${p_cruce}-${p_mutacion}-${generaciones}.txt
+                cat ${dir3}/${Frente} > ${dir3}/${FrentesA}/${instancia:0:-4}/${instancia:0:-4}-${semilla}-${lambda}-${p_aceptacion}-${p_cruce}-${p_mutacion}-${generaciones}.txt
 
                 cat ${dir3}/${Individuos} > ${dir3}/${SolucionesA}/${instancia:0:-4}/${instancia:0:-4}-${semilla}-${lambda}-${p_aceptacion}-${p_cruce}-${p_mutacion}-${generaciones}.txt
 
