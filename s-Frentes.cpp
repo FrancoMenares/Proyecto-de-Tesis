@@ -195,9 +195,12 @@ void Frentes::clasificar_frente_final(void){
 }
 
 
-void Frentes::escribir_frente_final(string ruta){
+void Frentes::escribir_frente_final(string nombre_instancia, string parametros){
+
   ofstream archivo1                                                                         ;
-  archivo1.open(ruta + "Individuos.txt")                                                    ; 
+  //archivo1.open(ruta + "Individuos.txt")                                                    ; 
+  archivo1.open("Resultados/SolucionesAlgoritmo/" + nombre_instancia + "/" + nombre_instancia + "-" + parametros + ".txt") ; 
+
   for (Individuo* i: this->frentes.at(0)){
     archivo1 << "=================================================================" << endl ;
 
@@ -233,7 +236,9 @@ void Frentes::escribir_frente_final(string ruta){
 
   
   ofstream archivo2                                       ; 
-  archivo2.open(ruta + "Frente.txt")                      ; 
+  //archivo2.open(ruta + "Frente.txt")                      ; 
+  archivo2.open("Resultados/FrentesAlgoritmo/" + nombre_instancia + "/" + nombre_instancia + "-" + parametros + ".txt") ; 
+
   for (Individuo* i: this->frentes.at(0)){
     archivo2 << i->get_f1() << " " << i->get_f2() << endl ; 
   }

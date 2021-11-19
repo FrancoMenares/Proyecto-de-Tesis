@@ -2,12 +2,13 @@
 #include "z-Trazado.h"
 
 
-void Trazado::escibir_rutas_completas(string ruta, Frentes* F, Red* red, Instancia* instancia){
+void Trazado::escibir_rutas_completas(string nombre_instancia, string parametros, Frentes* F, Red* red, Instancia* instancia){
   Costos* costos = new Costos()        ;
   TDDijkstra* rutas = new TDDijkstra() ;
 
   ofstream archivo2                    ; 
-  archivo2.open(ruta + "Rutas.txt")    ; 
+  //archivo2.open("Resultados/Rutas.txt")    ;  
+  archivo2.open("Resultados/RutasAlgoritmo/" + nombre_instancia + "/" + nombre_instancia + "-" + parametros + ".txt") ; 
 
   archivo2 << "Nodo,Individuo,Ruta,Segmento,Tiempo viaje,Costo viaje,Tiempo atencion,Costo atencion,Tasa fallo,Demanda" <<endl ;
 

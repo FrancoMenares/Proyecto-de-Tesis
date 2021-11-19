@@ -48,5 +48,5 @@ class Frentes{
 
     void clasificar_frente_final(void)                    ;
 
-    void escribir_frente_final(string nombre_archivo)     ;
+    void escribir_frente_final(string nombre_instancia, string parametros) ;
 };
