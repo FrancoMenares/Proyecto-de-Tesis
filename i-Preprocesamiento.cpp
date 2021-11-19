@@ -59,17 +59,21 @@ void Preprocesamiento::preprocesar_red(Red* red, Instancia* instancia, float fre
 }
 
 
+//--------------- tiempo ejecucion ---------------
+float Preprocesamiento::get_tiempo_pre_prop(void)   {return tiempo_ejecucion ;}
+
+
 //--------------- impresiones ---------------
 void Preprocesamiento::imprimir_tiempo_ejecucion(void){
-  cout << " " << this->tiempo_ejecucion ;
+  //cout << " " << this->tiempo_ejecucion ;
 
-  /*
+  ///*
   cout << "=================================================================" << endl ;
   cout << "Tiempo Preprocesamiento: " << this->tiempo_ejecucion                       ;
   cout << " seg." << endl                                                             ;
   cout << "=================================================================" << endl ;
   cout << endl                                                                        ;
-  */
+  //*/
 }
 
 

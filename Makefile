@@ -29,7 +29,10 @@ ProyectoTesis: $(OBJS)
 #cantidad de generaciones
 
 exe:
-	./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/b-Instancia12.txt 60.0 624 50 80 90 90 100000
+	./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/a-Instancia1.txt 60.0 624 50 80 90 90 1000
+
+exe1:
+	./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasGrandes/e-Instancia50.txt 15.0 624 50 80 90 90 1000
   
 graf:
 	python3 y-GraficarFrentes.py b-Instancia17.txt

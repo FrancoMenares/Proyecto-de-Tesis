@@ -23,5 +23,6 @@ class Preprocesamiento{
     void preprocesar_red(Red* red, Instancia* instancia, float frecuencia) ;
 
     //--------------- impresiones ---------------
-    void imprimir_tiempo_ejecucion(void);
+    float get_tiempo_pre_prop(void)      ;
+    void imprimir_tiempo_ejecucion(void) ;
 };
