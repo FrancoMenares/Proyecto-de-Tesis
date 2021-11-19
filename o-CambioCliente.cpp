@@ -141,22 +141,6 @@ void CambioCliente::cambiar_cliente_aleatorio(Individuo* individuo, Instancia* i
     }
 
   } else {
-    /*
-    while (!bandera){
-      bandera = this->actualizar_ruta_desde(instancia, ruta, elegir_s) ; //se actualiza la ruta
-
-      if (!bandera){                                                          //si la actualizacion no es factible
-        elegir_s = 0                                                        ; //se reevalua desde el inicio a otra hora
-        h_fin = ruta->get_tiempo_inicio()*100                               ; //limite superior de la nueva hora
-        hora_inicio = (float)(rand()%(h_fin - h_inicio + 1) + h_inicio)/100 ; //se escoge una hora previa a la anterior
-        ruta->set_tiempo_inicio(hora_inicio)                                ; //se setea en el primer segmento
-        ruta->get_segmento(elegir_s)->set_tiempo_i(hora_inicio)             ; //se setea en la ruta
-      }
-    }
-    */
-
-    ///*
-    //******************************************************************************************************************
     for (int i=0; i<10; i++){
       bandera = this->actualizar_ruta_desde(instancia, ruta, elegir_s)      ; //se actualiza la ruta
       
@@ -188,8 +172,6 @@ void CambioCliente::cambiar_cliente_aleatorio(Individuo* individuo, Instancia* i
 
       return ;
     }
-    //******************************************************************************************************************
-    //*/
 
     individuo->set_f1(individuo->get_f1() + ruta->get_aporte_f1()) ; //se actualiza f1 del individuo
     individuo->set_f2(individuo->get_f2() + ruta->get_aporte_f2()) ; //se actualiza f2 del individuo

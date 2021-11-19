@@ -4,6 +4,8 @@
 #include <vector>
 #include <time.h>
 
+#include <string.h>
+
 #include "b-Red.h"
 #include "c-LecturaRed.h"
 #include "e-Instancia.h"
@@ -54,7 +56,7 @@ int main(int argc, char **argv){
   //Preprocesamiento de la red
   Preprocesamiento* preprocesar = new Preprocesamiento()     ; //se crea un objeto de tipo Preprocesamiento
   preprocesar->preprocesar_red(red, instancia, frec_salidas) ; //se preprocesa la rede de carreteras
-  preprocesar->imprimir_tiempo_ejecucion()                   ;
+  //preprocesar->imprimir_tiempo_ejecucion()                   ;
 
 
   //Aprobacion de la instancia
@@ -108,7 +110,7 @@ int main(int argc, char **argv){
 
     //clasificar individuos en los frentes F_i
     R->clasificar_poblacion(F, lambda)                                     ;
-    
+
     //calcular distancia de hacinamiento obteniendo la proxima generacion de padres P_t+1
     P->agregar_nuevos_padres(F, lambda)                                    ;
     
@@ -124,22 +126,119 @@ int main(int argc, char **argv){
 
   //clasificar individuos del frente F_0
   R->obtener_frente_pareto(F)                                              ;
-  //R->clasificar_poblacion(F, lambda)                                       ;
-  //F->clasificar_frente_final()                                             ;
-
+  
+  
   //se finaliza el tiempo de ejecucion
-  cout << " " << float (difftime(clock(), tiempo)/CLOCKS_PER_SEC) << endl  ;
-
-  //float tiempo_ej = float (difftime(clock(), tiempo)/CLOCKS_PER_SEC)                             ;
+  float tiempo_ej = float (difftime(clock(), tiempo)/CLOCKS_PER_SEC)                             ;
   //cout << "=================================================================" << endl            ;
   //cout << "Tiempo NSGA-II: " << tiempo_ej                                     << " seg." << endl ;
   //cout << "=================================================================" << endl    << endl ;
+
+
+  cout << semilla << " " << lambda << " " << p_aceptacion << " " << p_cruce << " " << p_mutacion << " " << generaciones << " " << preprocesar->get_tiempo_pre_prop() << " " << tiempo_ej << endl ;
+
+
 
 
   F->escribir_frente_final("Resultados/")                                  ;
 
   Trazado* T = new Trazado()                                               ;
   T->escibir_rutas_completas("Resultados/", F, red, instancia)             ;
+
+
+
+
+
+  
+
+
+
+  ////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////
+
+  
+
+  //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+  //::::::::::::::::::::::::::::::::::::::::::::::::: GA :::::::::::::::::::::::::::::::::::::::::::::::
+  //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+  //inicializacion de las generaciones
+  //generar poblacion de padres P_0
+  //generar poblacion de descendientes Q_0
+  //mientras corren las generaciones t
+    //combinar poblacion de padres e hijos R_t = P_t + Q_t
+    //clasificar la proxima generacion de padres P_t+1
+    //generar la proxima generacion de hijos Q_t+1
+    //avanzar a la siguiente generacion
+  //combinar poblacion de padres e hijos R_t = P_t + Q_t
+  //obtener el mejor individuo
+
+
+
+
+  /*
+  F->imprimir_frente_2(0) ;
+
+  int k1 = 1;
+  int k2 = 1;
+  int contarsi = 0 ;
+
+  cout << endl;
+
+  for (Individuo* i: F->get_frente(0)){
+
+    if (k1 != 2){
+      k1++;
+      continue;
+      break;
+    }
+    cout << "Individuo " << k1 << "\t" ;
+
+    for (Ruta* r: i->get_rutas()){
+
+      //if (k2 != 1){break;}
+      cout << "Ruta " << k2 << endl ;
+
+      //r->imprimir_ruta();
+
+      for (int j=0; j<r->get_segmentos().size()-1; j++){
+
+        Segmento* s = r->get_segmento(j) ;
+
+        float prob = (float)(rand()%(100 + 1))/100 ;
+        float tasa = int((s->get_tasa_t() - s->get_tasa_i())*100) ;
+        tasa = float(tasa/100) ;
+
+        cout << tasa << "\t" << prob << "\t";
+        
+        if (prob <= tasa){
+          cout << "\t SI" ;
+          contarsi++;
+        }
+
+        cout << endl ;
+
+      }
+
+      k2++;
+    }
+    
+    cout << endl ;
+
+    k1++;
+  }
+
+
+
+  cout << "Rerutear: \t" << contarsi << endl ;
+  */
+
+  
+
+
 }
 
 
