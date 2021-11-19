@@ -69,7 +69,7 @@ for i in archivos:
 
   
 
-f = open("Resultados/PuntoRef.txt","w")
+f = open("Resultados/PuntoRef-" + str(sys.argv[1]),"w")
 
 f.write(str(round(f1_max*1.1, 3)) + " " + str(round(f2_max*1.1, 3)) + "\n")
 

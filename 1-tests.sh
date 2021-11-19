@@ -33,14 +33,10 @@ TiemposA="TiemposAlgoritmo"
 
 Frente="Frente.txt"
 Individuos="Individuos.txt"
-Punto="PuntoRef.txt"
+Punto="PuntoRef-"
 Rutas="Rutas.txt"
 Seguimiento="Seguimiento.txt"
 
-
-#clear
-#rm -r rm ${dir3}/${FrentesA}/* ${dir3}/${FrentesG}/* ${dir3}/${Hiper}/* ${dir3}/${RutasA}/* ${dir3}/${SolucionesA}/* 
-#m ${dir3}/${Frente} ${dir3}/${Individuos} ${dir3}/${Punto} ${dir3}/${Rutas} ${dir3}/${Seguimiento} nohup.out
 
 
 for instancia in ${Instancias_chicas}; do
@@ -56,16 +52,9 @@ for instancia in ${Instancias_chicas}; do
           for p_cruce in ${P_cruce}; do
             for p_mutacion in ${P_mutacion}; do
               for generaciones in ${Generaciones}; do
-                #echo -n "./ProyectoTesis ${Red} ${dir1}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones}" >> ${dir3}/${Seguimiento}
 
-                #./ProyectoTesis ${Red} ${dir1}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones} >> ${dir3}/${Seguimiento}
                 ./ProyectoTesis ${Red} ${dir1}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones} >> ${dir3}/${TiemposA}/${instancia}
 
-                cat ${dir3}/${Frente} > ${dir3}/${FrentesA}/${instancia:0:-4}/${instancia:0:-4}-${semilla}-${lambda}-${p_aceptacion}-${p_cruce}-${p_mutacion}-${generaciones}.txt
-
-                cat ${dir3}/${Individuos} > ${dir3}/${SolucionesA}/${instancia:0:-4}/${instancia:0:-4}-${semilla}-${lambda}-${p_aceptacion}-${p_cruce}-${p_mutacion}-${generaciones}.txt
-
-                cat ${dir3}/${Rutas} > ${dir3}/${RutasA}/${instancia:0:-4}/${instancia:0:-4}-${semilla}-${lambda}-${p_aceptacion}-${p_cruce}-${p_mutacion}-${generaciones}.txt
               done
             done
           done
@@ -73,11 +62,10 @@ for instancia in ${Instancias_chicas}; do
       done
     done
   done
-  #echo " " >> ${dir3}/${Seguimiento}
 
   python3 y-ExtraerPuntoRef.py ${instancia}
 
-  read -r PuntoRef < ${dir3}/${Punto}
+  read -r PuntoRef < ${dir3}/${Punto}${instancia}
   echo "PuntoRef ${PuntoRef}" >> ${dir3}/${Hiper}/${instancia}
   echo -n "${instancia:0:-4} " >> ${dir3}/${Hiper}/${instancia}
   Hypervolume/./hv -r "${PuntoRef}" ${dir3}/${FrentesM}/${instancia} >> ${dir3}/${Hiper}/${instancia}
@@ -87,7 +75,10 @@ for instancia in ${Instancias_chicas}; do
   done
 
   python3 y-GraficarFrentes.py ${instancia}
+
+  rm ${dir3}/${Punto}${instancia}
 done
+
 
 
 for instancia in ${Instancias_grandes}; do
@@ -103,16 +94,9 @@ for instancia in ${Instancias_grandes}; do
           for p_cruce in ${P_cruce}; do
             for p_mutacion in ${P_mutacion}; do
               for generaciones in ${Generaciones}; do
-                #echo -n "./ProyectoTesis ${Red} ${dir2}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones}" >> ${dir3}/${Seguimiento}
-
-                #./ProyectoTesis ${Red} ${dir2}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones} >> ${dir3}/${Seguimiento}
+              
                 ./ProyectoTesis ${Red} ${dir2}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones} >> ${dir3}/${TiemposA}/${instancia}
 
-                cat ${dir3}/${Frente} > ${dir3}/${FrentesA}/${instancia:0:-4}/${instancia:0:-4}-${semilla}-${lambda}-${p_aceptacion}-${p_cruce}-${p_mutacion}-${generaciones}.txt
-
-                cat ${dir3}/${Individuos} > ${dir3}/${SolucionesA}/${instancia:0:-4}/${instancia:0:-4}-${semilla}-${lambda}-${p_aceptacion}-${p_cruce}-${p_mutacion}-${generaciones}.txt
-
-                cat ${dir3}/${Rutas} > ${dir3}/${RutasA}/${instancia:0:-4}/${instancia:0:-4}-${semilla}-${lambda}-${p_aceptacion}-${p_cruce}-${p_mutacion}-${generaciones}.txt
               done
             done
           done
@@ -120,11 +104,10 @@ for instancia in ${Instancias_grandes}; do
       done
     done
   done
-  #echo " " >> ${dir3}/${Seguimiento}
 
-  python3 y-ExtraerPuntoRef.py ${instancia}
+  python3 y-ExtraerPuntoRef.py ${instancia} 
 
-  read -r PuntoRef < ${dir3}/${Punto}
+  read -r PuntoRef < ${dir3}/${Punto}${instancia}
   echo "PuntoRef ${PuntoRef}" >> ${dir3}/${Hiper}/${instancia}
   for Archivo in $(ls ${dir3}/${FrentesA}/${instancia:0:-4}); do
     echo -n "${Archivo:0:-4} " >> ${dir3}/${Hiper}/${instancia}
@@ -132,6 +115,8 @@ for instancia in ${Instancias_grandes}; do
   done
 
   python3 y-GraficarFrentes.py ${instancia}
+
+  rm ${dir3}/${Punto}${instancia}
 done
 
 

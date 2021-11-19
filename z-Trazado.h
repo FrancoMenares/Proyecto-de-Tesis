@@ -22,7 +22,7 @@ class Trazado{
     ~Trazado(){}      ; //Destructor
 
     //--------------- ruta mas corta dependiente del tiempo ---------------
-    void escibir_rutas_completas(string ruta, Frentes* F, Red* red, Instancia* instancia) ;
+    void escibir_rutas_completas(string nombre_instancia, string parametros, Frentes* F, Red* red, Instancia* instancia) ;
 };
 
 

@@ -55,13 +55,13 @@ def extraer_hiper_volumen(nombre_archivo, num_linea):
   return parametros, hiper_volumen
 
 
-def extraer_min_max():
+def extraer_min_max(instancia):
   f1_min = ""
   f1_max = ""
   f2_min = ""
   f2_max = ""
 
-  with open('Resultados/PuntoRef.txt',"r") as archivo:
+  with open('Resultados/PuntoRef-' + instancia,"r") as archivo:
     j = 0
     for linea in archivo:
       if j == 1:
@@ -99,7 +99,7 @@ def extraer_min_max():
 with os.scandir('Resultados/FrentesModelo/') as carpeta:
   archivos = [archivo.name for archivo in carpeta]
 
-f1_min, f1_max, f2_min, f2_max = extraer_min_max()
+f1_min, f1_max, f2_min, f2_max = extraer_min_max(sys.argv[1])
 x = 0
 
 if sys.argv[1] in archivos:

@@ -139,16 +139,27 @@ int main(int argc, char **argv){
 
 
 
+  
 
-  F->escribir_frente_final("Resultados/")                                  ;
+  
+  int pos = archivo_ins.find("-") ;
+  string nom_inst = "" ;
+
+  for (int i=0; i<archivo_ins.substr(pos-1).length()-4; i++){
+    nom_inst = nom_inst + archivo_ins.substr(pos-1)[i] ;
+  }
+
+  string params = to_string(semilla) + "-" + to_string(lambda) + "-" + to_string(p_aceptacion) + "-" + to_string(p_cruce) + "-" + to_string(p_mutacion) + "-" + to_string(generaciones) ;
+  
+  
+  
+
+
+
+  F->escribir_frente_final(nom_inst, params)                ;
 
   Trazado* T = new Trazado()                                               ;
-  T->escibir_rutas_completas("Resultados/", F, red, instancia)             ;
-
-
-
-
-
+  T->escibir_rutas_completas(nom_inst, params, F, red, instancia)             ;
   
 
 
