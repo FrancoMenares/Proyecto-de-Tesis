@@ -7,9 +7,6 @@ dir2="Instancias/InstanciasGrandes"
 Instancias_chicas="a-Instancia7.txt"
 Instancias_grandes=""
 
-#Instancias_chicas="a-Instancia1.txt a-Instancia7.txt b-Instancia14.txt b-Instancia17.txt"
-#Instancias_grandes="c-Instancia25.txt c-Instancia30.txt d-Instancia35.txt d-Instancia40.txt e-Instancia45.txt e-Instancia50.txt"
-
 #Instancias_chicas=$(ls ${dir1})
 #Instancias_grandes=$(ls ${dir2})
 
