@@ -14,7 +14,7 @@ void TDDijkstra::ruta_mas_corta(Red* red, int nodo_inicio){
   float costo = 0                         ; //costo acumulado
   Nodo* star = red->get_nodo(nodo_inicio) ; //nodo de inicio
   star->set_costo(costo)                  ; //distancia en el nodo de inicio
-  star->set_padre(NULL)                   ; //el nodo de inicio nunca tendra un padre :(((((      <<<<<<=============
+  star->set_padre(NULL)                   ; //el nodo de inicio nunca tendra un padre :((((( <<<<<<=============
   cola.push(star)                         ; //se agrega nodo de inicio a la cola de prioridad
   
   while (!cola.empty()){

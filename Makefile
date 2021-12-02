@@ -1,5 +1,5 @@
 #Aquí se agregan los objetos para compilar
-OBJS = main.o a-Nodo.o b-Red.o c-LecturaRed.o d-Cliente.o e-Instancia.o f-LecturaInstancia.o g-Costos.o h-TDDijkstra.o i-Preprocesamiento.o j-Segmento.o k-Ruta.o l-Individuo.o m-Construccion.o n-Poblacion.o ñ-AjusteHora.o o-CambioCliente.o p-InvertirClientes.o q-OX.o s-Frentes.o z-EscrituraInstancia.o z-Trazado.o
+OBJS = main.o a-Nodo.o b-Red.o c-LecturaRed.o d-Cliente.o e-Instancia.o f-LecturaInstancia.o g-Costos.o h-TDDijkstra.o i-Preprocesamiento.o j-Segmento.o k-Ruta.o l-Individuo.o m-Construccion.o n-Poblacion.o ñ-AjusteHora.o o-CambioCliente.o p-InvertirClientes.o q-OX.o s-Frentes.o t-ReRuteo.o z-EscrituraInstancia.o z-Trazado.o
 
 #Para poner opciones de la versión de C++ a ocupar 
 FLAGS = -O3
@@ -32,10 +32,11 @@ exe:
 	./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/a-Instancia1.txt 60.0 624 50 80 90 90 1000
 
 exe1:
-	./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasGrandes/e-Instancia50.txt 15.0 624 50 80 90 90 1000
+	./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasGrandes/c-Instancia25.txt 15.0 624 25 80 90 90 5000
   
 graf:
 	python3 y-GraficarFrentes.py b-Instancia17.txt
 
 clean: 
 	rm -rf *.o ProyectoTesis
+

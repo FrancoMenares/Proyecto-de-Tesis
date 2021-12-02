@@ -39,14 +39,15 @@ class Frentes{
 
     void imprimir_frentes_1(void)                         ;
     void imprimir_frentes_2(void)                         ;
+    void imprimir_frentes_3(void)                         ;
 
     //--------------- calculo de la distancia de hacinamiento ---------------
     void calcular_distancia_hacinamiento(int frente)      ;
 
     //--------------- ordenar individuos de un frente ---------------
     void ordenar_frente(int frente)                       ;
+    void clasificar_frente_final(int lambda)              ;
 
-    void clasificar_frente_final(void)                    ;
-
-    void escribir_frente_final(string nombre_instancia, string parametros) ;
+    void escribir_frente_final(string nombre_instancia, string parametros)    ;
+    void escribir_frente_final_re(Frentes* F, string nombre_instancia, string parametros) ;
 };
