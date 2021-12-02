@@ -37,7 +37,7 @@ int main(int argc, char **argv){
   int p_cruce = atoi(argv[7])           ; //probabilidad de cruce
   int p_mutacion = atoi(argv[8])        ; //probabilidad de mutacion
   int generaciones = atoi(argv[9])      ; //cantidad de generaciones
-  int criterio_parada = 75              ; //generaciones estancadas para GA
+  int criterio_parada = 50              ; //generaciones estancadas para GA
 
   bool debug = false ;
   
@@ -146,12 +146,14 @@ int main(int argc, char **argv){
   int estancamiento ; //estancamiento de la soluciones
   int p_cruce_2     ; //probabilidad de cruce
 
-  //cout << endl                    ;
-  //F->imprimir_frente_2(0)         ;
-  //cout << endl                    ;
+  lambda = int (lambda/4) ;
+
+  cout << endl                    ;
+  F->imprimir_frente_2(0)         ;
+  cout << endl                    ;
   //instancia->imprimir_instancia() ;
 
-  int num_reruteos  = 30 ; //
+  int num_reruteos  = 5 ; //
   float tiempo_re_1 = 0  ; //
   float tiempo_re_2      ; //
   

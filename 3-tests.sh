@@ -4,23 +4,29 @@ Red="Red-Carreteras/Red-Carreteras-3.txt"
 dir1="Instancias/InstanciasChicas"
 dir2="Instancias/InstanciasGrandes"
 
-Instancias_chicas="a-Instancia7.txt"
-Instancias_grandes="e-Instancia50.txt"
+#Instancias_chicas="a-Instancia7.txt"
+#Instancias_grandes="e-Instancia50.txt"
 
-#Instancias_chicas=$(ls ${dir1})
-#Instancias_grandes=$(ls ${dir2})
+Instancias_chicas=$(ls ${dir1})
+Instancias_grandes=$(ls ${dir2})
 
-#Semillas="624 472 685 103 328 467 432 191 779 510"
-Semillas="624"
+Semillas="624 472 685 103 328 467 432 191 779 510 111 222 333 444 555 666 007 777 888 999"
+#Semillas="624"
 
 Frec_salidas_chicas="60.0"
 Frec_salidas_grandes="15.0"
 
-Lambda="200"
-P_aceptacion="80"
-P_cruce="90"
+Lambda="100"
+P_aceptacion="70"
+P_cruce="60"
 P_mutacion="90"
-Generaciones="100000"
+Generaciones="10000"
+
+#Lambda="100"
+#P_aceptacion="50"
+#P_cruce="60"
+#P_mutacion="90"
+#Generaciones="100000"
 
 dir3="Resultados"
 FrentesM="FrentesModelo"
@@ -57,6 +63,7 @@ for instancia in ${Instancias_chicas}; do
             for p_mutacion in ${P_mutacion}; do
               for generaciones in ${Generaciones}; do
 
+                echo "./ProyectoTesis ${Red} ${dir1}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones}"
                 ./ProyectoTesis ${Red} ${dir1}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones} >> ${dir3}/${TiemposA}/${instancia}
 
               done
@@ -87,7 +94,8 @@ for instancia in ${Instancias_grandes}; do
           for p_cruce in ${P_cruce}; do
             for p_mutacion in ${P_mutacion}; do
               for generaciones in ${Generaciones}; do
-              
+
+                echo "./ProyectoTesis ${Red} ${dir1}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones}"
                 ./ProyectoTesis ${Red} ${dir2}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones} >> ${dir3}/${TiemposA}/${instancia}
 
               done
@@ -100,6 +108,7 @@ for instancia in ${Instancias_grandes}; do
 done
 
 
+cp ${dir3} ${dir3}${frec_salidas}${semilla}${lambda}${p_aceptacion}${p_cruce}${p_mutacion}${generaciones}
 
 
 
