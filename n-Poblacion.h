@@ -37,6 +37,7 @@ class Poblacion{
     //--------------- Poblacion ---------------
     void agregar_individuo(Individuo* i)           ;
     void insertar_individuo(int pos, Individuo* i) ;
+    void eliminar_individuo(int pos)               ;
 
     vector <Individuo*> get_poblacion(void)        ;
     Individuo* get_individuo(int pos)              ;
@@ -65,9 +66,27 @@ class Poblacion{
 
     //--------------- clasificacion no dominada de las soluciones ---------------
     void clasificar_poblacion(Frentes* F, int lambda)                                 ;
-    void obtener_frente_pareto(Frentes* F)                                            ;
+    void obtener_frente_pareto(Frentes* F, int lambda)                                            ;
 
     //--------------- pasar nuevos padres del frente a la poblacion ---------------
     void agregar_nuevos_padres(Frentes* F, int lambda)                                ;
+
+
+
+
+    //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    //:::::::::::::::::::::::::::::::::::::: PARA RERUTEO ::::::::::::::::::::::::::::::::::::::
+    //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    
+    //--------------- generacion de los hijos ---------------
+    void generar_descendientes_2(Poblacion* Q, int lambda, int p_aceptacion, int p_cruce, int p_mutacion) ;
+    
+    //--------------- seleccion de padre para cruce ---------------
+    Individuo* torneo_binario_3(int aceptacion)             ;
+    Individuo* torneo_binario_4(Individuo* p, Individuo* q) ;
+
+    //--------------- clasificacion no dominada de las soluciones ---------------
+    void ordenar_poblacion(void) ;
+    void clasificar_poblacion_2(Poblacion* Q, int lambda) ;
 
 };

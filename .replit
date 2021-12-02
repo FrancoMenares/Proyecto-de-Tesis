@@ -1,6 +1,6 @@
 
 language = "cpp"
 
-run = "clear; make; clear; make exe"
+run = "clear; make; clear; make exe1"
 
 #run = "clear; make; ./2-limpiar.sh; ./1-tests.sh"

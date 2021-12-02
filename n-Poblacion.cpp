@@ -17,6 +17,10 @@ void Poblacion::insertar_individuo(int pos, Individuo* i){
   this->poblacion.insert(this->poblacion.begin()+pos, i)                            ;
 }
 
+void Poblacion::eliminar_individuo(int pos){ 
+  this->poblacion.erase(this->poblacion.begin() + pos) ;
+}
+
 vector <Individuo*> Poblacion::get_poblacion(void) { return this->poblacion         ;}
 Individuo* Poblacion::get_individuo(int pos)       { return this->poblacion.at(pos) ;}
 
@@ -318,7 +322,7 @@ void Poblacion::agregar_nuevos_padres(Frentes* F, int lambda){
 }
 
 
-void Poblacion::obtener_frente_pareto(Frentes* F){
+void Poblacion::obtener_frente_pareto(Frentes* F, int lambda){
   int dominancia ;
   F->crear_frente()                                      ; //se crea el primer frente
   for (Individuo* p: this->poblacion){                     //se recorre los individuos de la poblacion
@@ -338,7 +342,182 @@ void Poblacion::obtener_frente_pareto(Frentes* F){
     }
   }
   this->limpiar_poblacion()                              ; //se eliminan los individuos de peor calidad
-  F->clasificar_frente_final()                           ; //se eliminan individuos parcialmento dominados
+  F->clasificar_frente_final(lambda)                     ; //se eliminan individuos parcialmente dominados
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+//--------------- seleccion de padre para cruce ---------------
+Individuo* Poblacion::torneo_binario_3(int aceptacion){
+  Individuo* p = this->get_individuo(rand()%(this->poblacion.size())) ; //se elige un padre
+  Individuo* q = this->get_individuo(rand()%(this->poblacion.size())) ; //se elige otro padre
+  while (p == q){                                                       //si los padres son iguales
+    q = this->get_individuo(rand()%(this->poblacion.size()))          ; //se elige otro otro padre
+  }
+  
+  if (p->get_f1() < q->get_f1()){   //si el costo de p es menor que el de q
+    return p                      ; //se retorna p
+  }
+  return q                        ; //se retorna q
+}
+
+
+//--------------- seleccion de padre para cruce ---------------
+Individuo* Poblacion::torneo_binario_4(Individuo* p, Individuo* q){
+  if (p->get_f1() < q->get_f1()){   //si el costo de p es menor que el de q
+    return p                      ; //se retorna p
+  }
+  return q                        ; //se retorna q
+}
+
+
+//--------------- generacion de los hijos ---------------
+void Poblacion::generar_descendientes_2(Poblacion* Q, int lambda, int p_aceptacion, int p_cruce, int p_mutacion){
+  Poblacion* hijos = Q                                ; //se crea objeto para la poblacion de hijo
+  OX* ox = new OX()                                   ; //se crea objeto para cruzar padres
+  AjusteHora* ajustar = new AjusteHora()              ; //se crea objeto para ajustar la hora de salida
+  CambioCliente* cambiar = new CambioCliente()        ; //se crea objeto para cambiar un cliente de posicion
+  InvertirClientes* invertir = new InvertirClientes() ; //se crea objeto para invertir los clientes de un segmento
+
+  Individuo* p               ; //un padre a cruzar
+  Individuo* q               ; //otro padre a cruzar
+  int cant_hijos             ; //cantidad de hijo a obtener en un cruce
+  int elegir_o               ; //identificador de operador de mutacion
+  vector <Individuo*> pulgas ; //vector que entrega los hijos luego de un
+
+  while (hijos->get_poblacion().size() < lambda){         //mientras no se alcance el tamaño de la poblacion
+    p = this->torneo_binario_3(p_aceptacion)            ; //se identifica padre un a cruzar
+    q = this->torneo_binario_3(p_aceptacion)            ; //se identifica padre otro a cruzar
+    
+    if ( (lambda - hijos->get_poblacion().size()) < 2){   //si falta un hijo en la nueva poblacion
+      cant_hijos = 1                                    ; //se debe obtener un hijo del cruzamiento
+    } else {                                              //si faltan dos o mas
+      cant_hijos = 2                                    ; //se deben obtener dos hijos del cruzamiento
+    }
+
+    if (rand()%(100) <= p_cruce){                         //si se acepta la probabilidad de cruzamiento
+      
+      pulgas = ox->cruzar_individuos(p, q, hijos->get_instancia(), cant_hijos) ; // se realiza el cruce
+
+      for (Individuo* hijo: pulgas){       //para cada hijo del cruce
+        if (rand()%(100) <= p_mutacion){   //si se acepta la probabilidad de mutacion
+          elegir_o = rand()%(99)         ; //se selecciona operador de mutacion aleatorio
+
+          if (elegir_o < 34){                                                    //entre 0 y 33 
+            ajustar->ajustar_hora_ruta(hijo, hijos->get_instancia())           ; //se ajusta la hora
+          } else if (elegir_o > 66 ){                                            //entre 67 y 99 
+            cambiar->cambiar_cliente_aleatorio(hijo, hijos->get_instancia())   ; //se cambia cliente de posicion
+          } else {                                                               //entre 34 y 66 
+            invertir->invertir_clientes_segmento(hijo, hijos->get_instancia()) ; //se invierte un segmento
+          }
+        }
+        hijos->agregar_individuo(hijo) ; //se agrega el hijo a la nueva poblacion
+      }
+
+    //PADRES QUE NO PASARON POR EL CRUZAMIENTO
+    } else {                                                          //si no se acepta la probabilidad de cruce
+      if (cant_hijos == 1){                                           //si solo falta un hijo a la poblacion
+        p = new Individuo(*this->torneo_binario_4(p, q)) ; //se seleciona el mejor padre
+
+        if (rand()%(100) <= p_mutacion){   //si se acepta la probabilidad de mutacion
+          elegir_o = rand()%(99)         ; //se selecciona operador de mutacion aleatorio
+
+          if (elegir_o < 34){                                                 //entre 0 y 33 
+            ajustar->ajustar_hora_ruta(p, hijos->get_instancia())           ; //se ajusta la hora
+          } else if (elegir_o > 66 ){                                         //entre 67 y 99 
+            cambiar->cambiar_cliente_aleatorio(p, hijos->get_instancia())   ; //se cambia cliente de posicion
+          } else {                                                            //entre 34 y 66 
+            invertir->invertir_clientes_segmento(p, hijos->get_instancia()) ; //se invierte un segmento
+          }
+        }
+        hijos->agregar_individuo(p) ; //se agrega el hijo a la nueva poblacion
+
+      } else {
+        p = new Individuo(*p)            ; //se seleciona el mejor padre
+        if (rand()%(100) <= p_mutacion){   //si se acepta la probabilidad de mutacion
+          elegir_o = rand()%(99)         ; //se selecciona operador de mutacion aleatorio
+
+          if (elegir_o < 34){                                                 //entre 0 y 33 
+            ajustar->ajustar_hora_ruta(p, hijos->get_instancia())           ; //se ajusta la hora
+          } else if (elegir_o > 66 ){                                         //entre 67 y 99 
+            cambiar->cambiar_cliente_aleatorio(p, hijos->get_instancia())   ; //se cambia cliente de posicion
+          } else {                                                            //entre 34 y 66 
+            invertir->invertir_clientes_segmento(p, hijos->get_instancia()) ; //se invierte un segmento
+          }
+        }
+        hijos->agregar_individuo(p)                                         ; //se agrega p a la poblacion
+
+        q = new Individuo(*q)            ; //se seleciona el mejor padre
+        if (rand()%(100) <= p_mutacion){   //si se acepta la probabilidad de mutacion
+          elegir_o = rand()%(99)         ; //se selecciona operador de mutacion aleatorio
+
+          if (elegir_o < 34){                                                 //entre 0 y 33 
+            ajustar->ajustar_hora_ruta(q, hijos->get_instancia())           ; //se ajusta la hora
+          } else if (elegir_o > 66 ){                                         //entre 67 y 99 
+            cambiar->cambiar_cliente_aleatorio(q, hijos->get_instancia())   ; //se cambia cliente de posicion
+          } else {                                                            //entre 34 y 66 
+            invertir->invertir_clientes_segmento(q, hijos->get_instancia()) ; //se invierte un segmento
+          }
+        }
+        hijos->agregar_individuo(q)                                         ; //se agrega q a la poblacion
+      }
+    }  
+  }
+
+  delete ox              ; //se elimina objeto
+  delete ajustar         ; //se elimina objeto
+  delete cambiar         ; //se elimina objeto
+  delete invertir        ; //se elimina objeto
+  pulgas.clear()         ; //se limpia vector
+  pulgas.shrink_to_fit() ; //reduce el tamaño del vector
+}
+
+
+//--------------- clasificacion no dominada de las soluciones ---------------
+void Poblacion::ordenar_poblacion(void){
+  sort(this->poblacion.begin(), this->poblacion.end(), [] (Individuo* &i1, Individuo* &i2){ 
+    return i1->get_f1() < i2->get_f1() ;
+  });
+}
+
+
+void Poblacion::clasificar_poblacion_2(Poblacion* Q, int lambda){
+  
+  Poblacion* R = new Poblacion(this->get_instancia()) ; //se crea una poblacion para combinar padres e hijos
+
+  R->combinar_poblacion(this, Q) ; //se junta la poblacion de padres e hijos
+  R->ordenar_poblacion()         ; //se se ordenan los individuos de menor a mayor
+  
+  for (int i=0; i<lambda; i++){
+    this->agregar_individuo(R->get_individuo(0)) ; //se agregar el mejor individuo en R a P (P_t+1)
+    R->eliminar_individuo(0)                     ; //se elimina el individuo de R
+  }
+  
+  for (Individuo* i: R->get_poblacion()){
+    delete i                              ; //los peores individuos se eliminan
+  }
+  R->eliminar_poblacion()                 ; //se limpia el vector de poblacion combinada
+
+  delete R ; //se elimina el objeto
+}

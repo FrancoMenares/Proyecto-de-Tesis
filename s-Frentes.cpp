@@ -33,7 +33,7 @@ void Frentes::eliminar_frente_2(int pos){
 
 
 void Frentes::imprimir_frente_1(int pos){
-  int j = 0 ; 
+  int j = 1 ; 
   for (Individuo* i: this->frentes.at(pos)){
     cout << j << " ::: " ; 
 
@@ -44,12 +44,13 @@ void Frentes::imprimir_frente_1(int pos){
 }
 
 void Frentes::imprimir_frente_2(int pos){
+  int j = 1 ;
+  cout << "N° \t   F1 \t F2" << endl ;
   for (Individuo* i: this->frentes.at(pos)){
-    if (i->get_hacinamiento() != 0){
-      cout << i->get_f1() << "\t" << i->get_f2() << endl ;
-      //i->imprimir_individuo() ;
-      //getchar() ;
-    }
+    //if (i->get_hacinamiento() != 0){
+    cout << j << "\t" << i->get_f1() << "\t" << i->get_f2() << endl ;
+    //}
+    j++ ;
   }
 }
 
@@ -67,6 +68,18 @@ void Frentes::imprimir_frentes_2(void){
     cout << "------ Frente : " << i+1 << " ------" << endl ;
     this->imprimir_frente_2(i)                               ;
     cout << endl                                           ;
+  }
+}
+
+void Frentes::imprimir_frentes_3(void){
+  vector <Individuo*> j ;
+  for (int i=0; i<this->frentes.size(); i++){
+    cout << i << "\t"                                                                         ;
+    cout << this->get_individuo(i, 0)->get_f1() << "\t"                                       ;
+    cout << this->get_individuo(i, 0)->get_f1() + this->get_individuo(i, 1)->get_f1() << "\t" ;
+    cout << this->get_individuo(i, 0)->get_f2() << endl                                       ;
+
+    //cout << i+1 << "\t" << this->get_frente(0).size() << endl ;
   }
 }
 
@@ -138,7 +151,7 @@ void Frentes::ordenar_frente(int frente){
 }
 
 
-void Frentes::clasificar_frente_final(void){
+void Frentes::clasificar_frente_final(int lambda){
 
   for (Individuo* i: this->frentes.at(0)){
     i->set_f1(int(i->get_f1()*100)) ;
@@ -192,6 +205,22 @@ void Frentes::clasificar_frente_final(void){
       delete i ;
     }
   }
+
+  this->calcular_distancia_hacinamiento(0) ;
+  
+  sort(this->frentes.at(0).begin(), this->frentes.at(0).end(), [] (Individuo* &i1, Individuo* &i2){ 
+    return i1->get_hacinamiento() > i2->get_hacinamiento() ;
+  });
+
+  while (this->frentes.at(0).size() > lambda){
+    Individuo* k = this->get_individuo(0, lambda) ;
+    this->eliminar_individuo(0, lambda) ;
+    delete k ;
+  }
+
+  sort(this->frentes.at(0).begin(), this->frentes.at(0).end(), [] (Individuo* &i1, Individuo* &i2){ 
+    return i1->get_f1() < i2->get_f1() ;
+  });
 }
 
 
@@ -248,3 +277,84 @@ void Frentes::escribir_frente_final(string nombre_instancia, string parametros){
 
 
 
+void Frentes::escribir_frente_final_re(Frentes* F, string nombre_instancia, string parametros){
+
+  ofstream archivo1                                                                         ;
+  //archivo1.open(nombre_instancia + "xxxxxx-" + parametros + ".txt")                         ; 
+  archivo1.open("Resultados/SolucionesReRuteo/" + nombre_instancia + "/" + nombre_instancia + "-" + parametros + ".txt") ; 
+
+  for (int j=0; j<F->get_frente(0).size(); j++){
+
+    archivo1 << endl << ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" << endl ;
+    archivo1 << ":::::::::::::::::::::::::::::::::::::::::::::::::::: " << j+1 << " :::::::::::::::::::::::::::::::::::::::::::::::::::" << endl ;
+    archivo1 << ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" << endl << endl ;
+
+    for (Individuo* i: this->get_frente(j)){
+      archivo1 << "=================================================================" << endl ;
+
+      archivo1 << "F1 : " << i->get_f1()                                              << endl ;
+      archivo1 << "F2 : " << i->get_f2()                                              << endl ;
+
+      for (Ruta* r: i->get_rutas()){
+        archivo1 << endl                                                                      ;
+        archivo1 << "Id            :\t" << r->get_id()                 << endl                ;
+        archivo1 << "Aporte f1     :\t" << r->get_aporte_f1()          << endl                ;
+        archivo1 << "Aporte f2     :\t" << r->get_aporte_f2()          << endl                ;
+        archivo1 << "T. Inicio     :\t" << r->get_tiempo_inicio()      << endl                ;
+        archivo1 << "T. Termino    :\t" << r->get_tiempo_termino()     << endl                ;
+        archivo1 << "T. Restante   :\t" << r->get_tiempo_restante()    << endl                ;
+        archivo1 << "Cap. Restante :\t" << r->get_capacidad_restante() << endl                ;
+        archivo1 << "Ruta          :\t"                                                       ;    
+
+        for (int j=0; j<r->get_segmentos().size(); j++){
+          if (j == r->get_segmentos().size()-1){
+            archivo1 << r->get_segmento(j)->get_cliente_i()->get_id_nodo()+1 << " - "         ;
+            archivo1 << r->get_segmento(j)->get_cliente_j()->get_id_nodo()+1 << endl          ;
+            break                                                                             ; 
+          } else {
+            archivo1 << r->get_segmento(j)->get_cliente_i()->get_id_nodo()+1 << " - "         ;
+          } 
+        }
+      }
+
+      archivo1 << "-----------------------------------------------------------------" << endl ;
+      archivo1 << endl                                                                        ;
+    }
+  }
+  archivo1.close()                                                                          ;
+
+
+
+  ofstream archivo2                                           ; 
+  //archivo2.open(nombre_instancia + "-" + parametros + ".txt") ; 
+  archivo2.open("Resultados/FrentesReRuteo/" + nombre_instancia + "/" + nombre_instancia + "-" + parametros + ".txt") ;
+  
+  float costo_min  ;
+  float costo_prom ;
+  float costo_max  ;
+
+  for (int i=0; i<F->get_frente(0).size(); i++){
+    //archivo2 << i+1 << " " ;
+
+    costo_min  = 999999999 ;
+    costo_prom = 0         ;
+    costo_max  = 0         ;
+
+    Individuo* k = F->get_individuo(0, i) ;
+
+    for (Individuo* j: this->get_frente(i)){
+      archivo2 << j->get_f1() + k->get_f1() << " " ;
+
+      if (j->get_f1() + k->get_f1() < costo_min){
+        costo_min = j->get_f1() + k->get_f1() ;
+      }
+      if (j->get_f1() + k->get_f1() > costo_max){
+        costo_max = j->get_f1() + k->get_f1() ;
+      }
+      costo_prom = costo_prom + j->get_f1() + k->get_f1() ;
+
+    }
+    archivo2 << k->get_f1() << " " << costo_min << " " << costo_prom/this->get_frente(i).size() << " " << costo_max << " " << k->get_f2() << endl ;
+  }
+  archivo2.close() ; 
+}

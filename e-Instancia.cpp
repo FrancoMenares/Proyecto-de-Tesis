@@ -91,6 +91,9 @@ void Instancia::imprimir_instancia(void){
     }
 
   }
+  if (this->cant_clientes == 0){
+    cout << endl ;
+  }
   cout << "N° Camiones      : \t" << this->cant_camiones                            << endl ;
   cout << "Cap. Camiones    : \t" << this->cap_camiones                             << endl ;
   cout << "Horizonte Plani. : \t" << inicio_horizonte << " - " << termino_horizonte << endl ;
