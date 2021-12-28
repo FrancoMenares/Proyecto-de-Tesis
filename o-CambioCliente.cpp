@@ -54,6 +54,9 @@ bool CambioCliente::evaluar_ruta_desde(Instancia* instancia, Ruta* ruta, int des
   Segmento* i = ruta->get_segmento(desde) ;
   float h_fin = instancia->get_termino()  ; //termino de horizonte de planificacion
   float tiempo = i->get_tiempo_i()        ; //tiempo transcurrido
+
+  int demanda = i->get_demanda_t()-1 ;
+
   int p                                   ; //periodo de tiempo
 
   for (int j=desde; j<ruta->get_segmentos().size(); j++){
@@ -65,9 +68,13 @@ bool CambioCliente::evaluar_ruta_desde(Instancia* instancia, Ruta* ruta, int des
     if (i->get_cliente_j() != instancia->get_cliente(instancia->get_cant_clientes())){
       p = tiempo / instancia->get_frec_salidas()               ; //se identifica periodo de tiempo
       tiempo = tiempo + i->get_cliente_j()->get_tiempo_aten(p) ; //se suma el tiempo de atencion
+
+      demanda++ ;
     }
 
     if (tiempo > h_fin){ return false ;} //si se supera el horizonte de panificacion de detiene el calculo
+
+    if (demanda > instancia->get_cap_camiones() ){ return false ;}
   }
   return true ; //retorna verdadero si el cambio es factible
 }

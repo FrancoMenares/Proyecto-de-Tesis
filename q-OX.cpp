@@ -92,6 +92,8 @@ bool OX::evaluar_secuencia(Instancia* instancia, vector <int> secuencia, float h
   float tiempo = hora_inicio              ; //tiempo transcurrido
   int p                                   ; //periodo de tiempo
 
+  int demanda = 0 ;
+
   Cliente* i = instancia->get_cliente(instancia->get_cant_clientes()) ; //cliente i del segmento, inicialmente el deposito
   Cliente* j                                                          ; //cliente j del segmento
 
@@ -104,6 +106,8 @@ bool OX::evaluar_secuencia(Instancia* instancia, vector <int> secuencia, float h
     if (j != instancia->get_cliente(instancia->get_cant_clientes())){
       p = tiempo / instancia->get_frec_salidas() ; //se identifica periodo de tiempo
       tiempo = tiempo + j->get_tiempo_aten(p)    ; //se suma el tiempo de atencion
+
+      demanda++ ;
     }
     
     if (tiempo > h_fin){ return false ;} //si se supera el horizonte de panificacion la ruta es infactible
@@ -115,6 +119,9 @@ bool OX::evaluar_secuencia(Instancia* instancia, vector <int> secuencia, float h
 
   p = tiempo / instancia->get_frec_salidas()                    ; //se identifica periodo de tiempo
   tiempo = tiempo + i->get_tiempo_hasta(j->get_id_cliente(), p) ; //se suma tiempo de viaje
+
+  //demanda++ ;
+  if (demanda > instancia->get_cap_camiones()){ return false ;}
 
   if (tiempo > h_fin){ return false ;} //si se supera el horizonte de panificacion la ruta es infactible
 
@@ -197,6 +204,7 @@ Ruta* OX::armar_ruta(Instancia* instancia, vector <int> secuencia, float hora_in
 
 
 //--------------- evaluacion de la ruta ---------------
+/*
 bool OX::evaluar_ruta_desde(Instancia* instancia, Ruta* ruta, int desde){
   Segmento* i = ruta->get_segmento(desde) ;
   float h_fin = instancia->get_termino()  ; //termino de horizonte de planificacion
@@ -218,6 +226,37 @@ bool OX::evaluar_ruta_desde(Instancia* instancia, Ruta* ruta, int desde){
   }
   return true ; //retorna verdadero si el cambio es factible
 }
+*/
+
+bool OX::evaluar_ruta_desde(Instancia* instancia, Ruta* ruta, int desde){
+  Segmento* i = ruta->get_segmento(desde) ;
+  float h_fin = instancia->get_termino()  ; //termino de horizonte de planificacion
+  float tiempo = i->get_tiempo_i()        ; //tiempo transcurrido
+
+  int demanda = i->get_demanda_t()-1 ;
+
+  int p                                   ; //periodo de tiempo
+
+  for (int j=desde; j<ruta->get_segmentos().size(); j++){
+    i = ruta->get_segmento(j) ; //se identifica el segmento a actualizar
+
+    p = tiempo / instancia->get_frec_salidas()                                                      ; //se identifica periodo de tiempo
+    tiempo = tiempo + i->get_cliente_i()->get_tiempo_hasta(i->get_cliente_j()->get_id_cliente(), p) ; //se suma el tiempo de viaje
+
+    if (i->get_cliente_j() != instancia->get_cliente(instancia->get_cant_clientes())){
+      p = tiempo / instancia->get_frec_salidas()               ; //se identifica periodo de tiempo
+      tiempo = tiempo + i->get_cliente_j()->get_tiempo_aten(p) ; //se suma el tiempo de atencion
+
+      demanda++ ;
+    }
+
+    if (tiempo > h_fin){ return false ;} //si se supera el horizonte de panificacion de detiene el calculo
+
+    if (demanda > instancia->get_cap_camiones() ){ return false ;}
+  }
+  return true ; //retorna verdadero si el cambio es factible
+}
+
 
 
 //--------------- actualizacion de la ruta ---------------

@@ -1,4 +1,4 @@
-//
+
 #include <iostream>
 #include <random>
 #include <vector>
@@ -24,8 +24,6 @@ using namespace std;
 
 
 int main(int argc, char **argv){
-
-  clock_t qqq = clock() ;
 
   //identificacion ARGV
   string archivo_red = argv[1]          ; //nombre archivo red
@@ -146,12 +144,7 @@ int main(int argc, char **argv){
   int estancamiento ; //estancamiento de la soluciones
   int p_cruce_2     ; //probabilidad de cruce
 
-  lambda = int (lambda/4) ;
-
-  cout << endl                    ;
-  F->imprimir_frente_2(0)         ;
-  cout << endl                    ;
-  //instancia->imprimir_instancia() ;
+  int lambda2 = int (lambda/4) ;
 
   int num_reruteos  = 5 ; //
   float tiempo_re_1 = 0  ; //
@@ -189,16 +182,16 @@ int main(int argc, char **argv){
         generacion = 0                                                                     ;
 
         //generar poblacion de padres P_0
-        P_re->construir_poblacion_inicial(lambda)                                          ;
+        P_re->construir_poblacion_inicial(lambda2)                                          ;
 
         //generar poblacion de descendientes Q_0
-        P_re->generar_descendientes_2(Q_re, lambda, p_aceptacion, p_cruce_2, p_mutacion)   ;
+        P_re->generar_descendientes_2(Q_re, lambda2, p_aceptacion, p_cruce_2, p_mutacion)   ;
 
         //mientras corren las generaciones t
         while (generacion < generaciones && estancamiento < criterio_parada){
 
           //clasificar la proxima generacion de padres P_t+1
-          P_re->clasificar_poblacion_2(Q_re, lambda)                                       ;
+          P_re->clasificar_poblacion_2(Q_re, lambda2)                                       ;
 
           //verificar estancamiento del algoritmo
           if (P_re->get_individuo(0)->get_f1() < MC){
@@ -209,14 +202,14 @@ int main(int argc, char **argv){
           }
 
           //generar la proxima generacion de hijos Q_t+1
-          P_re->generar_descendientes_2(Q_re, lambda, p_aceptacion, p_cruce_2, p_mutacion) ;
+          P_re->generar_descendientes_2(Q_re, lambda2, p_aceptacion, p_cruce_2, p_mutacion) ;
 
           //avanzar a la siguiente generacion
           generacion++                                                                     ;
         }
         
         //clasificar ultima generacion de padres P_t+1
-        P_re->clasificar_poblacion_2(Q_re, lambda)                                         ;
+        P_re->clasificar_poblacion_2(Q_re, lambda2)                                         ;
         
         //se finaliza el tiempo de ejecucion
         tiempo_re_2 = tiempo_re_2 + float (difftime(clock(), tiempo_re)/CLOCKS_PER_SEC)    ;
@@ -244,10 +237,8 @@ int main(int argc, char **argv){
     frente.shrink_to_fit()       ; //
   }
 
-  //F_re->imprimir_frentes_2();
   
   
-
 
   //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
   //::::::::::::::::::::::::::::::::::::::::::::::::: Resultados :::::::::::::::::::::::::::::::::::::::
@@ -271,8 +262,6 @@ int main(int argc, char **argv){
   //-------------- resultados GA -------------
   F_re->escribir_frente_final_re(F, nom_inst, params)             ;
 
-
-  //cout << endl << endl << "TIEMPO TOTAL: " << float (difftime(clock(), qqq)/CLOCKS_PER_SEC) << endl ;
 }
 
 

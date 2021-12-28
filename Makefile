@@ -32,7 +32,7 @@ exe:
 	./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasChicas/a-Instancia1.txt 60.0 624 50 80 90 90 1000
 
 exe1:
-	./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasGrandes/c-Instancia25.txt 15.0 624 25 80 90 90 5000
+	./ProyectoTesis Red-Carreteras/Red-Carreteras-3.txt Instancias/InstanciasGrandes/e-Instancia47.txt 15.0 137 100 50 60 90 100000
   
 graf:
 	python3 y-GraficarFrentes.py b-Instancia17.txt
