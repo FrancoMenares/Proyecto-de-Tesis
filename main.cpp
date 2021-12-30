@@ -35,6 +35,7 @@ int main(int argc, char **argv){
   int p_cruce = atoi(argv[7])           ; //probabilidad de cruce
   int p_mutacion = atoi(argv[8])        ; //probabilidad de mutacion
   int generaciones = atoi(argv[9])      ; //cantidad de generaciones
+  int num_reruteos  = atoi(argv[10])    ; //numero de reruteos
   int criterio_parada = 50              ; //generaciones estancadas para GA
 
   bool debug = false ;
@@ -146,7 +147,7 @@ int main(int argc, char **argv){
 
   int lambda2 = int (lambda/4) ;
 
-  int num_reruteos  = 5 ; //
+  //int num_reruteos  = 30 ; //
   float tiempo_re_1 = 0  ; //
   float tiempo_re_2      ; //
   

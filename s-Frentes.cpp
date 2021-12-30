@@ -354,7 +354,7 @@ void Frentes::escribir_frente_final_re(Frentes* F, string nombre_instancia, stri
       costo_prom = costo_prom + j->get_f1() + k->get_f1() ;
 
     }
-    archivo2 << k->get_f1() << " " << costo_min << " " << costo_prom/this->get_frente(i).size() << " " << costo_max << " " << k->get_f2() << endl ;
+    archivo2 << costo_min << " " << costo_prom/this->get_frente(i).size() << " " << costo_max << " " << k->get_f2() << endl ;
   }
   archivo2.close() ; 
 }

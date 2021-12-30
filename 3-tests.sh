@@ -4,11 +4,11 @@ Red="Red-Carreteras/Red-Carreteras-3.txt"
 dir1="Instancias/InstanciasChicas"
 dir2="Instancias/InstanciasGrandes"
 
-#Instancias_chicas="a-Instancia7.txt"
+Instancias_chicas="a-Instancia1.txt"
 #Instancias_grandes="e-Instancia50.txt"
 
-Instancias_chicas=$(ls ${dir1})
-Instancias_grandes=$(ls ${dir2})
+#Instancias_chicas=$(ls ${dir1})
+#Instancias_grandes=$(ls ${dir2})
 
 Semillas="624 472 685 103 328 467 432 191 779 510 111 222 333 444 555 666 007 777 888 999"
 #Semillas="624"
@@ -21,6 +21,8 @@ P_aceptacion="70"
 P_cruce="60"
 P_mutacion="90"
 Generaciones="10000"
+
+num_reruteos="30"
 
 #Lambda="100"
 #P_aceptacion="50"
@@ -41,7 +43,7 @@ FrentesRE="FrentesReRuteo"
 SolucionesRE="SolucionesReRuteo"
 
 
-make
+#make
 
 
 for instancia in ${Instancias_chicas}; do
@@ -64,7 +66,7 @@ for instancia in ${Instancias_chicas}; do
               for generaciones in ${Generaciones}; do
 
                 echo "./ProyectoTesis ${Red} ${dir1}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones}"
-                ./ProyectoTesis ${Red} ${dir1}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones} >> ${dir3}/${TiemposA}/${instancia}
+                ./ProyectoTesis ${Red} ${dir1}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones} ${num_reruteos} >> ${dir3}/${TiemposA}/${instancia}
 
               done
             done
@@ -96,7 +98,7 @@ for instancia in ${Instancias_grandes}; do
               for generaciones in ${Generaciones}; do
 
                 echo "./ProyectoTesis ${Red} ${dir1}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones}"
-                ./ProyectoTesis ${Red} ${dir2}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones} >> ${dir3}/${TiemposA}/${instancia}
+                ./ProyectoTesis ${Red} ${dir2}/${instancia} ${frec_salidas} ${semilla} ${lambda} ${p_aceptacion} ${p_cruce} ${p_mutacion} ${generaciones} ${num_reruteos} >> ${dir3}/${TiemposA}/${instancia}
 
               done
             done
