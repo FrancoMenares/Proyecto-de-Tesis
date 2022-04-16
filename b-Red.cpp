@@ -51,7 +51,7 @@ float Red::get_tasa_fallo(int i, int p)           { return this->tasas_fallo[i][
 
 //------------ limites_periodo ------------
 void Red::set_tam_periodos(int cant_periodos)     {
-  this->limites_periodo = new float*[2]                                                     ;
+  this->limites_periodo = new float*[3]                                                     ;
   this->limites_periodo[1] = new float[cant_periodos]                                       ;
   this->limites_periodo[2] = new float[cant_periodos]                                       ;
 }

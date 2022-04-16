@@ -49,6 +49,52 @@ bool CambioCliente::actualizar_ruta_desde(Instancia* instancia, Ruta* ruta, int 
 }
 
 
+
+void CambioCliente::actualizar_ruta_desde_2(Instancia* instancia, Ruta* ruta, int desde){ //esta version no evalua factibilidad
+  Segmento* i = ruta->get_segmento(desde) ;
+  float h_fin = instancia->get_termino()  ; //termino de horizonte de planificacion
+  int cap = instancia->get_cap_camiones() ; //capcidad de los camiones
+  float tiempo = i->get_tiempo_i()        ; //tiempo transcurrido
+  float costo = i->get_costo_i()          ; //costo acumulado
+  float tasa = i->get_tasa_i()            ; //tasa acumulada
+  int demanda = i->get_demanda_t()-1      ; //demanda atendida
+  int p                                   ; //periodo de tiempo
+
+  for (int j=desde; j<ruta->get_segmentos().size(); j++){
+    i = ruta->get_segmento(j) ; //se identifica el segmento a actualizar
+    i->set_tiempo_i(tiempo)   ; //se setea tiempo de inicio del segmento
+    i->set_costo_i(costo)     ; //se setea costo de inicio del segmento
+    i->set_tasa_i(tasa)       ; //se setea tasa al inicio del segmento
+
+    p = tiempo / instancia->get_frec_salidas()                                                      ; //se identifica periodo de tiempo
+    tiempo = tiempo + i->get_cliente_i()->get_tiempo_hasta(i->get_cliente_j()->get_id_cliente(), p) ; //se suma el tiempo de viaje
+    costo = costo + i->get_cliente_i()->get_costo_hasta(i->get_cliente_j()->get_id_cliente(), p)    ; //se suma el costo de viaje
+
+    if (i->get_cliente_j() != instancia->get_cliente(instancia->get_cant_clientes())){
+      p = tiempo / instancia->get_frec_salidas()               ; //se identifica periodo de tiempo
+      tiempo = tiempo + i->get_cliente_j()->get_tiempo_aten(p) ; //se suma el tiempo de atencion
+      costo = costo + i->get_cliente_j()->get_costo_aten(p)    ; //se suma el costo de atencion
+      tasa = tasa + i->get_cliente_j()->get_tasas_fallo(p)     ; //se suma la tasa de fallo
+      demanda++                                                ; //se suma la demanda
+    }
+    //if (tiempo > h_fin){ return false ;} //si se supera el horizonte de panificacion de detiene el calculo
+
+    i->set_tiempo_t(tiempo)   ; //se setea el tiempo de termino del segmento
+    i->set_costo_t(costo)     ; //se setea el costo de termino del segmento
+    i->set_tasa_t(tasa)       ; //se setea la tasa de termino del segmento
+    i->set_demanda_t(demanda) ; //se setea la demanda al termino del segmento
+  }
+
+  ruta->set_aporte_f1(costo)                  ; //se setea el aporte de la ruta a f1
+  ruta->set_aporte_f2(tasa)                   ; //se setea el aporte de la ruta a f2
+  ruta->set_tiempo_termino(tiempo)            ; //se setea el tiempo de termino de la ruta
+  ruta->set_tiempo_restante(h_fin - tiempo)   ; //se setea el tiempo restante de la ruta
+  ruta->set_capacidad_restante(cap - demanda) ; //se setea la capacidad disponible del camion
+
+  //return true ;
+}
+
+
 //--------------- evaluacion de la ruta ---------------
 bool CambioCliente::evaluar_ruta_desde(Instancia* instancia, Ruta* ruta, int desde){
   Segmento* i = ruta->get_segmento(desde) ;
@@ -260,7 +306,7 @@ void CambioCliente::cambiar_cliente_aleatorio(Individuo* individuo, Instancia* i
       individuo->set_f1(individuo->get_f1() - ruta->get_aporte_f1()) ; //se actualiza f1 del individuo
       individuo->set_f2(individuo->get_f2() - ruta->get_aporte_f2()) ; //se actualiza f2 del individuo
 
-      this->actualizar_ruta_desde(instancia, ruta, aux4)             ; //se realiza el cambio
+      this->actualizar_ruta_desde_2(instancia, ruta, aux4)             ; //se realiza el cambio
 
       individuo->set_f1(individuo->get_f1() + ruta->get_aporte_f1()) ; //se actualiza f1 del individuo
       individuo->set_f2(individuo->get_f2() + ruta->get_aporte_f2()) ; //se actualiza f2 del individuo

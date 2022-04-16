@@ -22,6 +22,7 @@ class CambioCliente{
 
     //--------------- actualizacion de la ruta ---------------
     bool actualizar_ruta_desde(Instancia* instancia, Ruta* ruta, int desde) ;
+    void actualizar_ruta_desde_2(Instancia* instancia, Ruta* ruta, int desde) ;
 
     //--------------- evaluacion de la ruta ---------------
     bool evaluar_ruta_desde(Instancia* instancia, Ruta* ruta, int desde) ;
